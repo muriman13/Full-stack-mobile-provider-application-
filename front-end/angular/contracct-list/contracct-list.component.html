@@ -1,0 +1,36 @@
+<div>
+  <button class="btn btn-lg btn-outline-primary" >CreateContract</button>
+
+<form   >
+  <label for="name">name</label><br>
+    <input type="text" id="name" ngModel name="name" ><br>
+    <label for="startDate">startDate:</label><br>
+    <input type="date" id="startDate" ngModel startDate="startDate" ><br>
+    <label for="endDate">endDate:</label><br>
+    <input type="date" id="endDate" ngModel endDate="endDate"><br><br>
+    <label for="price">price:</label><br>
+    <input type="text" id="price" ngModel name="price"><br><br>
+    <label for="monthly_pricek_id">monthly_price:</label><br>
+    <input type="monthly_price" id="monthly_price" ngModel name="monthly_price"><br><br>
+    
+    <form >
+      <label for="channels">channels</label>
+      <div class="dropdown">
+        <button class="dropbtn">channels</button>
+        <div class="dropdown-content">
+          <a  *ngFor="let channel of channels">{{channel.name}}</a>
+        </div>
+      </div>
+      <br><br>
+      <input type="submit" value="Submit">
+    </form>
+    <br>
+      <div class="dropdown">
+        <button class="dropbtn">packages</button>
+        <div class="dropdown-content">
+          <a  *ngFor="let packages of packagess">{{packages.name}}</a>
+        </div>
+      </div>
+      <br>
+      <button class="button button" id= "chep"  type="submit" value="Submit" ></button>
+  </form>

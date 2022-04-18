@@ -1,0 +1,66 @@
+
+
+<button class="button button" (click)="open(table)">refresh channels</button>
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">addChannel</button>
+<ng-template #table let-modal>
+<h2>channels</h2>
+<div >
+<table class="table table-striped">
+  <thead>
+<tr>
+<th>Name</th>
+<th>price</th>  
+<th>id</th>
+
+</tr>
+
+
+  </thead>
+
+
+
+
+    <tbody *ngFor="let channel of channels">
+     <tr>
+        <td>{{channel?.name}}</td>
+         <td>{{channel?.price}}</td>
+         <td>{{channel?.id}}</td>
+        </tr>
+    <tr>
+    </tbody>> 
+</table>>
+  </div>>
+  <h1>packages</h1>
+
+<div *ngFor="let packages of packagess">
+  <button class="button button" (click)="getChannelsByPackage(packages.id)">{{packages?.name}}</button>
+</div>
+<button class="button button" (click)="getChannels()">refresh channels</button>
+<br>
+<div class="dropdown">
+  <button class="dropbtn">Categorys</button>
+  <div class="dropdown-content">
+    <a (click)="getChannelsByCategory('Music')" >Music</a>
+    <a (click)="getChannelsByCategory('Comedy')"> Comedy</a>
+    <a (click)="getChannelsByCategory('News')">News</a>
+  </div>
+</div>
+</ng-template>
+<ng-template #content let-modal>
+<h1>addChannel</h1>
+
+<form #addForm="ngForm" (ngSubmit)="onAddChannel(addForm)">
+  <label for="name">name:</label><br>
+  <input type="text" id="name" ngModel name="name" ><br>
+  <label for="type">type:</label><br>
+  <input type="text" id="type" ngModel name="type"><br><br>
+  <label for="price">price:</label><br>
+  <input type="text" id="price" ngModel name="price"><br><br>
+  <label for="pack_id">pack_id:</label><br>
+  <input type="text" id="pack_id" ngModel name="pack_id"><br><br>
+  <button class="button button" id= "chep"  type="submit" value="Submit" (click)="modal.close('Save click')" ></button>
+  
+</form>
+
+</ng-template>
+
