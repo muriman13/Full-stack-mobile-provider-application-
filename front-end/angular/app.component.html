@@ -1,5 +1,177 @@
-<h1>table</h1>
+<body style="background-color: black;">
+<div  style="background-image: url(https://wallpapercave.com/wp/wp3340694.png)">
+<div style="background-image: url(https://wallpapercave.com/wp/wp3340694.png)">
 
-<app-channel-list></app-channel-list>
+  <div>
+    <button class="button5" (click)="open(KursMade)" >Add Channels to Package</button>
+    <button class="button5" (click)="open(IncreasePrice)" >Increase Price</button>
+    <button class="button5" (click)="getChannels()" > Refressh channels</button>
+   
+  <app-channel-list></app-channel-list>
 <app-contracct-list></app-contracct-list>
 <app-packages-list></app-packages-list>
+<div class="dropdown">
+  <button class="dropbtn">Packages</button>
+  <div class="dropdown-content" >
+    <a *ngFor="let packages of packagess" (click)="getChannelsByPackage(packages.id)">{{packages.name}}</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Categorys</button>
+  <div class="dropdown-content">
+    <a (click)="getChannelsByCategory('Music')" >Music</a>
+    <a (click)="getChannelsByCategory('Comedy')"> Comedy</a>
+    <a (click)="getChannelsByCategory('News')">News</a>
+  </div>
+</div>
+  </div>
+<h1>All channels</h1>
+<ng-template #contentUpdate let-modal>
+<form #updateChannel="ngForm">
+  <label type ="hidden" for="id"></label><br>
+    <input type="hidden" id="id"  ngModel ={{channel?.id}} name="id" ><br><br>
+    
+  <label for="name">name:</label><br>
+  <input type="text" id="name" ngModel ={{channel?.name}} name="name" ><br>
+  <label for="type">type:</label><br>
+  <input type="text" id="type" ngModel ={{channel?.type}} name="type"><br><br>
+  <label for="price">price:</label><br>
+  <input type="text" id="price" ngModel ={{channel?.price}} name="price"><br><br>
+  <label for="pack_id">pack_id:</label><br>
+  <input type="text" id="pack_id" ngModel ={{channel?.pack_id}} name="pack_id"><br><br>
+  
+  <div class="box">
+    <select name="providers" ngModel id="providers" >
+      <option *ngFor="let providers of providerss" [ngValue]="providers" >
+        {{ providers.name }}
+      </option>
+    </select>
+    </div>
+  
+  <button class="button button"  id= "che111p"  type="submit" value="Submit" (click)="modal.close('Save click')" (click)="update(updateChannel.value)" >ClickThsi One</button>
+  
+</form>
+</ng-template>
+<ng-template #contentUpdatePackage let-modal>
+  <form #updatePackage="ngForm">
+    <label type ="hidden" for="id"></label><br>
+      <input type="hidden" id="id"  ngModel ={{packages?.id}} name="id" ><br><br>
+      
+    <label for="name">name:</label><br>
+    <input type="text" id="name" ngModel ={{packages?.name}} name="name" ><br>
+     <label for="price">price:</label><br> 
+     <input type="text" id="price" ngModel ={{packages?.price}} name="price"><br><br>
+    
+     <div class="box">
+      <select name="providersInpackage" ngModel id="providersInpackage" >
+        <option *ngFor="let providers of providerss" [ngValue]="providers" >
+          {{ providers.name }}
+        </option>
+      </select>
+      </div>
+      
+
+     <button class="button button"  id= "che121p"  type="submit" value="Submit" (click)="modal.close('Save click')" (click)="updatePackages(updatePackage.value)"(click)="getPackages()">ClickThsi One</button>
+    
+  </form>
+  </ng-template>
+<table class="table table-striped">
+    <thead>
+  <tr>
+  <th style="color: red;">Name</th>
+  <th style="color: red;">price</th>  
+  <th style="color: red;"> type</th>
+  </tr>
+    </thead>
+      <tbody *ngFor="let channela of channels" >
+       <tr >
+          <td style="color: red;">{{channela?.name}}</td>
+           <td style="color: red;">{{channela?.price}}</td>
+           <td style="color: red;">{{channela?.type}}</td>
+           <td >
+            <button (click)="update" (click)="open(contentUpdate)" (click)="getChannelByid(channela.id)">+</button>
+           </td>
+           <td>
+            <button (click)="deleteChannel(channela.id)">-</button>
+           </td>
+          </tr>
+      <tr>
+      </tbody>> 
+  </table>>
+
+  All Packages
+  <table class="table table-striped">
+    <thead>
+  <tr>
+  <th style="color: rgb(96, 96, 228);">Name</th>
+  <th style="color: rgb(96, 96, 228);">price</th>  
+  <th style="color: rgb(96, 96, 228);">type</th>
+  </tr>
+    </thead>
+      <tbody *ngFor="let packages of packagess">
+       <tr>
+          <td style="color: rgb(96, 96, 228);"> {{packages?.name}}</td>
+           <td style="color: rgb(96, 96, 228);">{{packages?.price}}</td>
+           <td style="color: rgb(96, 96, 228);">
+            <button (click)="update" (click)="open(contentUpdatePackage)" (click)="getPackagesbyId(packages.id)">+</button>
+           </td>
+           <td style="color: rgb(96, 96, 228);">
+            <button (click)="deletePackage(packages.id)">-</button>
+           </td>
+          </tr>
+      <tr>
+      </tbody>> 
+  </table>>
+
+  <ng-template #KursMade let-modal>
+    <form #addChannelstoPackage="ngForm" (ngSubmit)="onListSend(addChannelstoPackage)">
+      <div class="box">
+    <select multiple name="channel" ngModel >
+      <option *ngFor="let channel of channels" [ngValue]="channel">
+        {{ channel.name }}
+      </option>
+    </select>
+      </div>
+  
+    <button class="button button" id= "multiselect"  type="submit" value="Submit" >Select chanels to add</button>
+  
+    </form> 
+    <form #contractFormAddPackage="ngForm" (ngSubmit)="SelectedPackage(contractFormAddPackage)">
+      <div class="box">
+      <select name="packagesss" ngModel >
+        <option *ngFor="let packages of packagess" [ngValue]="packages">
+          {{ packages.name }}
+        </option>
+      </select>
+      </div>
+      <button class="blue" id= "multiselect"  type="submit" value="Submit"  >Select aad to Add packages</button>
+      
+      </form>  
+  </ng-template>
+
+
+  <ng-template #IncreasePrice let-modal>
+  <form #testform="ngForm" (ngSubmit)="onClickSubmit(testform.value)">
+    <input type = "text" name = "percent" placeholder = "percent" ngModel>
+      <div class="box">
+        Select from whichg providers
+      <select name="providers" ngModel id="providers" >Select from whichg providers
+        <option *ngFor="let providers of providerss" [ngValue]="providers" >
+          {{ providers.name }}
+        </option>
+      </select>
+      </div>
+    <button class="button button" id= "chep"  type="submit" value="Submit" (click)="modal.close('Save click')" >ClickThsi One</button>
+    
+  </form>
+ </ng-template>
+ <br>
+ 
+
+
+  
+
+
+</div>
+</div>
+</body>

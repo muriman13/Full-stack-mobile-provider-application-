@@ -22,11 +22,18 @@ export class ChannelService {
    public getChannelByCategory(id: string): Observable<Channel[]>{
     return this.http.get<Channel[]>('http://localhost:8080/category/' + id);
    }
-   public getChannelByid(id: number): Observable<Channel[]>{
-    return this.http.get<Channel[]>('http://localhost:8080/show/' + id);
+   public getChannelByid(id: number): Observable<Channel>{
+    return this.http.get<Channel>('http://localhost:8080/show/' + id);
    }
 
-  
-
+   public update( channel: Channel): Observable<Channel>{
+    return this.http.put<Channel>('http://localhost:8080/update', channel);
+   }
+   public deleteChannel(id: number): Observable<void>{
+     return this.http.delete<void> ('http://localhost:8080/delete/' + id);
+   }
+   public updateprice(id:number, percent: number): Observable <void>{
+   return this.http.get<void> ('http://localhost:8080/providers/update/' + id + "/" + percent);
+   }
 } 
    

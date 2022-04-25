@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { PackageService } from '../package.service';
 import {NgbModal, ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { ProvidersService } from '../providers.service';
+import { providers } from '../providers';
 
 @Component({
   selector: 'app-channel-list',
@@ -16,11 +18,16 @@ export class ChannelListComponent implements OnInit {
 
   public channels: Channel[] | undefined;
   public packagess: packages[] | undefined;
-  constructor(private channelService: ChannelService, private packageService: PackageService,private modalService: NgbModal) {}
+  public channel: Channel | undefined;
+  public providerss: providers[] | undefined;
+  public percent: number | undefined;
+  public channelsBypackage: Channel[] | undefined;
+  constructor(private channelService: ChannelService, private packageService: PackageService,private modalService: NgbModal, private providersService: ProvidersService) {}
   closeResult = '';
   ngOnInit(): void {
     this.getChannels();
     this.getPackages();
+    this.getproviders();
   }
   
   public getPackages(): void{
@@ -33,16 +40,19 @@ export class ChannelListComponent implements OnInit {
       }
     )
   }
-  public getChannelsByPackage(id: number): void{
-    this.channelService.getChannelByPackage(id).subscribe(
-      (response: Channel[]) => {
-        this.channels = response;
+  
+
+  public getproviders(): void{
+    this.providersService.getAllProviders().subscribe(
+      (response: providers[]) => {
+        this.providerss = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
     )
   }
+
 
   public getChannels(): void{
     this.channelService.getChannel().subscribe(
@@ -54,20 +64,11 @@ export class ChannelListComponent implements OnInit {
       }
     )
   }
-  public getChannelsByCategory(id: string): void{
-    this.channelService.getChannelByCategory(id).subscribe(
-      (response: Channel[]) => {
-        this.channels = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    )
-  }
+
   public getChannelByid(id: number): void{
     this.channelService.getChannelByid(id).subscribe(
-      (response: Channel[]) => {
-        this.channels = response;
+      (response: Channel) => {
+        this.channel = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -75,6 +76,13 @@ export class ChannelListComponent implements OnInit {
     )
   }
 
+  public update(channel: Channel){
+    this.channelService.update(channel).subscribe(
+    (Response: Channel) =>{
+      console.log(Response);
+    }
+    )
+  }
 
  
   open(content: any) {
@@ -99,11 +107,11 @@ export class ChannelListComponent implements OnInit {
     this.channelService.addChannel(addForm.value).subscribe(
       (response: Channel) =>{
         console.log(response);
-        this.getChannels;
+        location.reload();
       },
       (error: HttpErrorResponse) =>{
         alert(error.message);
-        this.getChannels;
+        location.reload();
       }
     );
   }

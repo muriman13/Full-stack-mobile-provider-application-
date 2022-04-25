@@ -11,13 +11,15 @@ import { ContracctListComponent } from './contracct-list/contracct-list.componen
 import {MatDialogModule} from '@angular/material/dialog';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChannelListComponent } from './channel-list/channel-list.component';
+import { ProvidersComponent } from './providers/providers.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChannelListComponent,
     PackagesListComponent,
-    ContracctListComponent
+    ContracctListComponent,
+    ProvidersComponent
   ],
   imports: [
     BrowserModule,

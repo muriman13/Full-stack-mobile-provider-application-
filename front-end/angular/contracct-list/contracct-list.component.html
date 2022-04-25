@@ -1,36 +1,110 @@
-<div>
-  <button class="btn btn-lg btn-outline-primary" >CreateContract</button>
 
-<form   >
-  <label for="name">name</label><br>
-    <input type="text" id="name" ngModel name="name" ><br>
-    <label for="startDate">startDate:</label><br>
-    <input type="date" id="startDate" ngModel startDate="startDate" ><br>
-    <label for="endDate">endDate:</label><br>
-    <input type="date" id="endDate" ngModel endDate="endDate"><br><br>
-    <label for="price">price:</label><br>
-    <input type="text" id="price" ngModel name="price"><br><br>
-    <label for="monthly_pricek_id">monthly_price:</label><br>
-    <input type="monthly_price" id="monthly_price" ngModel name="monthly_price"><br><br>
+  <button class="button5" (click)="open(contract)" (click) = "getIdOfCreatedContract()"(click)="getChannels()">Create new contract</button>
+  <!-- 
+  <div *ngFor=" let number of idOfContract">
+    {{number}}
+  </div>> -->
+  
+  <ng-template #contract let-modal>
     
-    <form >
-      <label for="channels">channels</label>
-      <div class="dropdown">
-        <button class="dropbtn">channels</button>
-        <div class="dropdown-content">
-          <a  *ngFor="let channel of channels">{{channel.name}}</a>
-        </div>
-      </div>
-      <br><br>
-      <input type="submit" value="Submit">
-    </form>
-    <br>
-      <div class="dropdown">
-        <button class="dropbtn">packages</button>
-        <div class="dropdown-content">
-          <a  *ngFor="let packages of packagess">{{packages.name}}</a>
-        </div>
-      </div>
-      <br>
-      <button class="button button" id= "chep"  type="submit" value="Submit" ></button>
+  <form #contractForm="ngForm" (ngSubmit)="onAddContract(contractForm)">
+    
+    <label type ="hidden" for="id"></label><br>
+    <input type="hidden" id="id"  ngModel ={{idOfContract}} name="id" ><br><br>
+    
+    <label for="type">date:</label><br>
+    <input type="date" id="type" ngModel name="start_date"><br><br>
+    <label for="price">date:</label><br>
+    <input type="date" id="price" ngModel name="end_date"><br><br>
+    <label for="pack_id">price:</label><br>
+    <input type="number" id="price" ngModel name="price"><br><br>
+    <label for="name">name:</label><br>
+    <input type="text" id="name" ngModel name="name" ><br>
+    <button class="button button" id= "ccchep"  (click)="modal.close('Save click')"  >ClickThsi one</button>
+    
   </form>
+  
+  <div  class="absolute">
+  <div>
+    <table class="table table-striped">
+      <thead>
+    <tr>
+    <th>Name</th>
+    <th>price</th>  
+    <th>id</th>
+    </tr>
+      </thead>
+        <tbody *ngFor="let channel of channelsForContract">
+         <tr>
+            <td>{{channel?.name}}</td>
+             <td>{{channel?.price}}</td>
+             <td>{{channel?.id}}</td>
+            </tr>
+        <tr>
+        </tbody>> 
+    </table>>
+  </div>
+  </div>
+  
+  
+  <div  class="absolute2">
+    <div>
+      <table class="table table-striped">
+        <thead>
+      <tr>
+      <th>Name</th>
+      <th>price</th>  
+      <th>id</th>
+      </tr>
+        </thead>
+          <tbody *ngFor="let packages of packagesForContract">
+           <tr>
+               <td>{{packages?.name}}</td>
+               <td>{{packages?.price}}</td>
+               <td>{{packages?.id}}</td>
+              </tr>
+          <tr>
+          </tbody>> 
+      </table>>
+    </div>
+    </div>
+  
+  
+  <div >
+    
+    <form #contractFormAddChannels="ngForm" (ngSubmit)="onListSend(contractFormAddChannels)">
+      <div class="box" >
+    <select multiple name="channel" ngModel >
+      <option *ngFor="let channel of channels" [ngValue]="channel" >
+        {{ channel.name }}
+        {{ channel.providers?.name}}
+     
+      </option>
+      <br>
+    </select>
+      </div>
+
+    <button class="button button" id= "multiselect"  type="submit" value="Submit" >Select chanels to add</button>
+  
+    </form> 
+  </div>
+      
+       
+     
+       <div class="box2">
+        <form #contractFormAddPackage="ngForm" (ngSubmit)="onListSendPackage(contractFormAddPackage)">
+          
+          <select multiple name="package" ngModel >
+            <option *ngFor="let packages of packagess" [ngValue]="packages">
+              {{ packages.name }}
+              {{ packages.providersInpackage?.name}}
+            </option>
+          </select>
+         
+          <button  class="blue" id= "multiselect"  type="submit" value="Submit" >Select packages to Add packages</button>
+          
+          </form>  
+        
+  </div>
+  </ng-template>
+ 

@@ -1,7 +1,5 @@
 
-
-<button class="button button" (click)="open(table)">refresh channels</button>
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">addChannel</button>
+<button class="button5" (click)="open(content)">addChannel</button>
 <ng-template #table let-modal>
 <h2>channels</h2>
 <div >
@@ -32,19 +30,10 @@
   </div>>
   <h1>packages</h1>
 
-<div *ngFor="let packages of packagess">
-  <button class="button button" (click)="getChannelsByPackage(packages.id)">{{packages?.name}}</button>
-</div>
-<button class="button button" (click)="getChannels()">refresh channels</button>
+
+
 <br>
-<div class="dropdown">
-  <button class="dropbtn">Categorys</button>
-  <div class="dropdown-content">
-    <a (click)="getChannelsByCategory('Music')" >Music</a>
-    <a (click)="getChannelsByCategory('Comedy')"> Comedy</a>
-    <a (click)="getChannelsByCategory('News')">News</a>
-  </div>
-</div>
+
 </ng-template>
 <ng-template #content let-modal>
 <h1>addChannel</h1>
@@ -58,9 +47,18 @@
   <input type="text" id="price" ngModel name="price"><br><br>
   <label for="pack_id">pack_id:</label><br>
   <input type="text" id="pack_id" ngModel name="pack_id"><br><br>
-  <button class="button button" id= "chep"  type="submit" value="Submit" (click)="modal.close('Save click')" ></button>
+    <div class="box">
+    <select name="providers" ngModel id="providers" >
+      <option *ngFor="let providers of providerss" [ngValue]="providers" >
+        {{ providers.name }}
+      </option>
+    </select>
+    </div>
+  <button class="button button" id= "chep"  type="submit" value="Submit" (click)="modal.close('Save click')" >ClickThsi One</button>
   
 </form>
+
+
 
 </ng-template>
 

@@ -1,9 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Channel } from '../channel';
 import { ChannelService } from '../channel.service';
 import { PackageService } from '../package.service';
 import { packages } from '../packages';
+import { providers } from '../providers';
+import { ProvidersService } from '../providers.service';
 
 @Component({
   selector: 'app-packages-list',
@@ -13,11 +17,13 @@ import { packages } from '../packages';
 export class PackagesListComponent implements OnInit {
   public packagess: packages[] | undefined;
   public channels: Channel[] | undefined;
-  constructor(private packageService: PackageService, private channelService: ChannelService) { }
-  
+  public providerss: providers[] | undefined;
+  constructor(private providersService: ProvidersService,private modalService: NgbModal,private packageService: PackageService, private channelService: ChannelService) { }
+  closeResult = '';
 
   ngOnInit(): void {
-    this.getPackages
+    this.getPackages();
+    this.getproviders();
   }
   
   
@@ -48,16 +54,7 @@ public getChannelsByPackage(id: number): void{
 }
 
 
-public addChannelsWithPackage(name: String, id: number): void{
-  this.packageService.addChannelsToPackages(name,id).subscribe(
-    (response: Channel[]) => {
-      this.channels = response;
-    },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-    }
-  )
-}
+
 
 public getChannels(): void{
   this.channelService.getChannel().subscribe(
@@ -70,4 +67,48 @@ public getChannels(): void{
   )
 }
 
+public onAddPackage(addPackage: NgForm): void{
+  this.getPackages;
+  this.packageService.addpackages(addPackage.value).subscribe(
+    (response: packages) =>{
+      console.log(response);
+     
+      location.reload();
+    },
+    (error: HttpErrorResponse) =>{
+      alert(error.message);
+      
+    }
+  );
+ 
 }
+
+public getproviders(): void{
+  this.providersService.getAllProviders().subscribe(
+    (response: providers[]) => {
+      this.providerss = response;
+    },
+    (error: HttpErrorResponse) => {
+      alert(error.message);
+    }
+  )
+}
+
+open(content: any) {
+  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass : "myCustomModalClass",size: 'lg'}).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
+}
+private getDismissReason(reason: any): string {
+  if (reason === ModalDismissReasons.ESC) {
+    return 'by pressing ESC';
+  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    return 'by clicking on a backdrop';
+  } else {
+    return `with: ${reason}`;
+  }
+}
+}
+
