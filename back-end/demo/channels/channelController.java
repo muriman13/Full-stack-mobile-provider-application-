@@ -28,11 +28,14 @@ public class channelController {
     public List<channel> showAll(){
       return  channelService.getAllChannels();
     }
-    @GetMapping("/show/{id}")
-        public List<channel> getChannel(@PathVariable String id) {
+    @GetMapping("/show/name/{id}")
+        public List<channel> getChannelso(@PathVariable String id) {
             return channelService.getchannelByName(id);
         }
-
+    @GetMapping("/show/{id}")
+    public channel getChannel(@PathVariable int id) {
+        return channelService.getchannelById(id);
+    }
         @GetMapping ("/delete/{name}")
         @Transactional
     public void deleteid(@PathVariable String name){
@@ -68,6 +71,17 @@ public class channelController {
     @GetMapping("/category/{cat}")
     public List<channel> channelWithCattegoru(@PathVariable String cat){
         return channelService.getByCategoy(cat);
+    }
+
+    @PutMapping("/update")
+    public channel updateChnannel(@RequestBody channel Oldchannel){
+        channel channel = channelService.update(Oldchannel);
+        return channel;
+    }
+    @Transactional
+    @DeleteMapping("/delete/{id}")
+    public void delete (@PathVariable int id){
+        channelService.delete(id);
     }
 
 }

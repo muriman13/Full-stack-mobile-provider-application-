@@ -48,9 +48,25 @@ public class channelService {
     }
 
     public channel getone(int id)  {
-        return channelrepository.findById(id).get();
+        return channelrepository.findById(id).get(0);
     }
     public List<channel> getByCategoy(String cat){
         return channelrepository.withCat(cat);
+    }
+
+    public channel update(channel channel ){
+        return channelrepository.save(channel);
+    }
+
+    public void delete(int id) {
+        channelrepository.deleteById(id);
+    }
+
+    public channel getchannelById(int id) {
+        return channelrepository.findById(id).get(0);
+    }
+
+    public List<channel> getInContract(int id) {
+        return channelrepository.getInContract(id);
     }
 }

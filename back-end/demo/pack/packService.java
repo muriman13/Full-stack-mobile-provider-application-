@@ -1,5 +1,6 @@
 package com.example.demo.pack;
 
+import com.example.demo.channels.channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,10 @@ import java.util.List;
 public class packService {
     @Autowired
     private packRepository packrepository;
+
+    public List<pack> getInContract(int id) {
+     return packrepository.getInContract(id);
+    }
 
     public void saveToDatabase(){
        pack a= new pack("AllChannelsPackage",4.99);
@@ -35,5 +40,16 @@ public class packService {
     }
     public pack getOne (int id) {
         return packrepository.findById(id).get();
+    }
+
+    public void delete(int id) {
+        packrepository.deleteById(id);
+    }
+    public pack update(pack pack ){
+        return packrepository.save(pack);
+    }
+
+    public pack getPackById(int id) {
+        return null;
     }
 }

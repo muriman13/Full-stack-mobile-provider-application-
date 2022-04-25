@@ -24,7 +24,7 @@ public class contracService {
     }
 
     public contract saveContact(contract contract) {
-      return   contractRepo.save(contract);
+      return  contractRepo.save(contract);
     }
 
     public contract saveContractWithChannels(Set<channel> channelsInContract, Set<pack> packagesInContract, Date start_date,Date end_date, double monthly_price,double price,
@@ -36,4 +36,9 @@ public class contracService {
     public contract getone(int contractId) {
        return contractRepo.findById(contractId).get();
     }
+
+    public contract update(contract contract){
+        return contractRepo.save(contract);
+    }
+
 }

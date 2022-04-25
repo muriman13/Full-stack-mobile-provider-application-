@@ -28,12 +28,17 @@ public class channel  {
     @ManyToMany(mappedBy = "channels", fetch = FetchType.LAZY)
     private Set<pack> packs = new HashSet<>();
    // @JsonIgnore
-    @ManyToMany(mappedBy = "channelsofproviders", fetch = FetchType.LAZY)
-    private Set<com.example.demo.providers.providers> providers;
+//    @ManyToMany(mappedBy = "channelsofproviders", fetch = FetchType.LAZY)
+//    private Set<com.example.demo.providers.providers> providers;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "contract_id",nullable = true)
     private contract channelcontract;
+
+
+    @ManyToOne
+    @JoinColumn(name = "providers_id",nullable = true)
+    private providers providers;
 
     public contract getChannelcontract() {
         return channelcontract;
@@ -43,11 +48,20 @@ public class channel  {
         this.channelcontract = channelcontract;
     }
 
-    public Set<com.example.demo.providers.providers> getProviders() {
+//    public Set<com.example.demo.providers.providers> getProviders() {
+//        return providers;
+//    }
+
+//    public void setProviders(Set<com.example.demo.providers.providers> providers) {
+//        this.providers = providers;
+//    }
+
+
+    public providers getProviders() {
         return providers;
     }
 
-    public void setProviders(Set<com.example.demo.providers.providers> providers) {
+    public void setProviders(providers providers) {
         this.providers = providers;
     }
 
@@ -100,16 +114,17 @@ public class channel  {
         this.contract_id = contract_id;
     }
 
-    public channel(int id, String name, String type, Double price, Integer pack_id, Set<pack> packs, Set<com.example.demo.providers.providers> providers, contract channelcontract) {
-        this.id = id;
+    public channel(String name, String type, Double price, Integer pack_id, Integer contract_id, Set<pack> packs, contract channelcontract, providers providers) {
         this.name = name;
         this.type = type;
         this.price = price;
         this.pack_id = pack_id;
+        this.contract_id = contract_id;
         this.packs = packs;
+        this.channelcontract = channelcontract;
         this.providers = providers;
-       this.channelcontract = channelcontract;
     }
+
 
     public channel(String name, String type, Double price, Integer pack_id) {
         this.id = id;

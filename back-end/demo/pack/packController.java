@@ -27,8 +27,8 @@ public class packController {
       return  packService.getAllpacks();
     }
     @GetMapping("/sho/{id}")
-        public List<pack> getpack(@PathVariable String id) {
-            return packService.getpackByName(id);
+        public pack getpack(@PathVariable int id) {
+            return packService.getOne(id);
         }
 
         @GetMapping ("/delet/{name}")
@@ -46,11 +46,20 @@ public class packController {
      return packService.savePostPackage(pack);
     }
     @PutMapping("/addto/{id}/{channel_id}")
-    public pack add_channel_to_package (@PathVariable String id, @PathVariable int channel_id) throws Exception {
-
-        pack pack = packService.getpackByName(id).get(0);
+    public pack add_channel_to_package (@PathVariable int id, @PathVariable int channel_id) throws Exception {
+        pack pack = packService.getOne(id);
         channel channel = channelService.getone(channel_id);
         pack.addchannel(channel);
         return packService.savePostPackage(pack);
+    }
+    @Transactional
+    @DeleteMapping("/delete/package/{id}")
+    public void delete (@PathVariable int id){
+        packService.delete(id);
+    }
+    @PutMapping("/update/package")
+    public pack updatePackage(@RequestBody pack Oldpack){
+        pack pack = packService.update(Oldpack);
+        return pack;
     }
 }

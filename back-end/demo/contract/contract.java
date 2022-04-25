@@ -33,6 +33,12 @@ public class contract {
     @OneToMany(mappedBy = "packcontract" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<pack> packagesInContract = new HashSet<>();
 
+    public contract(Date start_date, Date end_date, double price, String name) {
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.price = price;
+        this.name = name;
+    }
     public Set<channel> getChannelsInContract() {
         return channelsInContract;
     }
@@ -53,7 +59,13 @@ public class contract {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Date getStart_date() {
         return start_date;
@@ -133,5 +145,11 @@ public class contract {
         this.name = name;
         this.channelsInContract = channelsInContract;
         this.packagesInContract = packagesInContract;
+    }
+
+
+
+    public contract(String name) {
+        this.name = name;
     }
 }

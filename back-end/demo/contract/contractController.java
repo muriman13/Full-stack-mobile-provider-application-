@@ -32,6 +32,28 @@ public class contractController {
     public void savecontract(@RequestBody contract contract){
         contracService.saveContact(contract);
     }
+    @PostMapping("saveId")
+    public int savecontractAndGetId(@RequestBody contract contract){
+        contracService.saveContact(contract);
+        return contract.id;
+    }
+    @PostMapping("saveIdEmpty")
+    public void savecontractAndGetIdEmpty(){
+      contract contract =  new contract();
+        contracService.saveContact(new contract());
+
+    }
+    @GetMapping("/ChannelsInContract/{id}")
+    public List<channel> getInContract(@PathVariable int id){
+        return channelService.getInContract(id);
+
+    }
+    @GetMapping("/packagesInContract/{id}")
+    public List<pack> getPInContract(@PathVariable int id){
+        return packageService.getInContract(id);
+
+    }
+
     @PutMapping("addChannel/{contractId}/{channelid}")
     public contract addChannel(@PathVariable int contractId,@PathVariable int channelid){
         channel channel = new channel();
@@ -73,9 +95,14 @@ public class contractController {
 
     }
     @GetMapping("/show/{id}")
-    public void getChannels(@PathVariable int id){
-        contracService.getone(id).getChannelsInContract();
+    public Set<channel> getChannels(@PathVariable int id){
+       return contracService.getone(id).getChannelsInContract();
 
+    }
+    @PutMapping("/update")
+    public contract update ( @RequestBody contract Oldcontract){
+        contract contract = contracService.update(Oldcontract);
+        return contract;
     }
 
 }

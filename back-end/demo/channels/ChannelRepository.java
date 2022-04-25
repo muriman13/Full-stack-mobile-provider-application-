@@ -13,7 +13,7 @@ public interface ChannelRepository extends CrudRepository<channel, Integer> {
     
 
     void deleteByname(String name);
-
+    List<channel> findById(int id);
     List<channel> findByname(String id);
 
     @Query(value = "select * from channel \n" +
@@ -25,4 +25,10 @@ public interface ChannelRepository extends CrudRepository<channel, Integer> {
     @Query(value = "select * from channel where type = :cat",nativeQuery = true)
     List<channel> withCat(@Param("cat") String cat);
 
+
+    @Query(value =
+            "select * from channel\n" +
+            "join contract on channel.contract_id = :id\n" +
+            "group by channel.id", nativeQuery = true)
+    List<channel> getInContract(@Param("id") Integer id);
 }

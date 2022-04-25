@@ -31,20 +31,23 @@ public class pack {
                             )})
     private Set<channel> channels = new HashSet<>();
 
-    @ManyToMany(mappedBy = "packagesOfProviders", fetch = FetchType.LAZY)
-    private Set<com.example.demo.providers.providers> providers = new HashSet<>();
+//    @ManyToMany(mappedBy = "packagesOfProviders", fetch = FetchType.LAZY)
+//    private Set<com.example.demo.providers.providers> providers = new HashSet<>();
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "contract_id",referencedColumnName = "id",nullable = true)
     private com.example.demo.contract.contract packcontract;
 
-    public Set<com.example.demo.providers.providers> getProviders() {
-        return providers;
-    }
-
-    public void setProviders(Set<com.example.demo.providers.providers> providers) {
-        this.providers = providers;
-    }
+//    public Set<com.example.demo.providers.providers> getProviders() {
+//        return providers;
+//    }
+//
+//    public void setProviders(Set<com.example.demo.providers.providers> providers) {
+//        this.providers = providers;
+//    }
+@ManyToOne
+@JoinColumn(name = "providers_id",nullable = true)
+private providers providersInpackage;
 
     public contract getPackcontract() {
         return packcontract;
@@ -66,6 +69,14 @@ public class pack {
         return name;
     }
 
+    public providers getProvidersInpackage() {
+        return providersInpackage;
+    }
+
+    public void setProvidersInpackage(providers providersInpackage) {
+        this.providersInpackage = providersInpackage;
+    }
+
     public Double getPrice() {
         return price;
     }
@@ -83,6 +94,10 @@ public class pack {
         this.name = name;
         this.price = price;
         this.channels = channels;
+    }
+
+    public pack(providers providersInpackage) {
+        this.providersInpackage = providersInpackage;
     }
 
     public pack(String name, Double price) {
