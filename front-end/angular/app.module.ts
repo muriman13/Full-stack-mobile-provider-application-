@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,23 +13,34 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChannelListComponent } from './channel-list/channel-list.component';
 import { ProvidersComponent } from './providers/providers.component';
 
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
+import { HttpInterceptorService } from './HttpInterceptor.service';
+import { HomeComponent } from './home/home.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ChannelListComponent,
     PackagesListComponent,
     ContracctListComponent,
-    ProvidersComponent
+    ProvidersComponent,
+    LoginComponent,
+    HomeComponent
   ],
+  
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-   NgbModule
-   
-
+   NgbModule,
+   AppRoutingModule,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

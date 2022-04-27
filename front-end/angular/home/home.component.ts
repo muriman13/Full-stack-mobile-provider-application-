@@ -1,20 +1,22 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Channel } from './channel';
-import { ChannelService } from './channel.service';
-import { PackageService } from './package.service';
-import { packages } from './packages';
-import { providers } from './providers';
-import { ProvidersService } from './providers.service';
+import { Channel } from '../channel';
+import { packages } from '../packages';
+import { providers } from '../providers';
+import { ProvidersService } from '../providers.service';
+import { ChannelService } from '../channel.service';
+import { PackageService } from '../package.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AppComponent implements OnInit{
+export class HomeComponent implements OnInit {
+
+
   public channel!: Channel;
   public packages!: packages;
   title: any;
@@ -27,9 +29,9 @@ export class AppComponent implements OnInit{
   CloseResult = '';
   ngOnInit(): void {
     
-    // this.getChannels();
-    // this.getPackages();
-    // this.getproviders();
+    this.getChannels();
+    this.getPackages();
+    this.getproviders();
     // this.getPackages();
   }
 
@@ -255,3 +257,6 @@ public getChannelsByCategory(id: string): void{
 }
 
 }
+
+
+
