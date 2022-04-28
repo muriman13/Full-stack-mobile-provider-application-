@@ -2,6 +2,7 @@ package com.example.demo.providers;
 
 import com.example.demo.channels.channel;
 import com.example.demo.channels.channelService;
+import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.pack.pack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ public class providersController {
     private channelService channelService;
     @GetMapping("getbyId/{id}")
     public providers getproviders(@PathVariable int id){
+        if(!(providersService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
         return providersService.FindById(id);
     }
     @PostMapping("addProvider")
@@ -26,7 +30,11 @@ public class providersController {
 
     }
     @PutMapping("addto/{id}/{channel_id}")
+
     public providers addChannel (@PathVariable int id, @PathVariable int channel_id) throws Exception {
+        if(!(providersService.containsKye(id) || channelService.containsKye(channel_id))){
+            throw new NoEntityFound("bad send");
+        }
         providers providers = providersService.FindById(id);
         channel channel = channelService.getone(channel_id);
         channel.setProviders(providers);
@@ -40,6 +48,9 @@ public class providersController {
 
     @GetMapping("update/{id}/{percent}")
     public void updatePrice(@PathVariable int id, @PathVariable double percent){
+        if(!(providersService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
         providersService.updateprice(id, percent);
     }
 

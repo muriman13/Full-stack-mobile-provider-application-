@@ -27,7 +27,9 @@ public class providersService {
         providersRepo.findAll().forEach(test::add);
         return test;
     }
-
+    public boolean containsKye(int id){
+        return providersRepo.existsById(id);
+    }
     public void updateprice(int id, double percent) {
         providersRepo.updatePrice(id,percent);
     }

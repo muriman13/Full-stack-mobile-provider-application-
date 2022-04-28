@@ -40,5 +40,8 @@ public class contracService {
     public contract update(contract contract){
         return contractRepo.save(contract);
     }
+    public boolean containsKye(int id){
+        return contractRepo.existsById(id);
+    }
 
 }

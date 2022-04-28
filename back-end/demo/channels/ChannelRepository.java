@@ -31,4 +31,6 @@ public interface ChannelRepository extends CrudRepository<channel, Integer> {
             "join contract on channel.contract_id = :id\n" +
             "group by channel.id", nativeQuery = true)
     List<channel> getInContract(@Param("id") Integer id);
+
+
 }

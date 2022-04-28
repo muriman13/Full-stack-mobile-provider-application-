@@ -15,6 +15,9 @@ public class packService {
     public List<pack> getInContract(int id) {
      return packrepository.getInContract(id);
     }
+    public boolean containsKye(int id){
+        return packrepository.existsById(id);
+    }
 
     public void saveToDatabase(){
        pack a= new pack("AllChannelsPackage",4.99);

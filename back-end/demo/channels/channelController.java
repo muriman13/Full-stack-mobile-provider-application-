@@ -1,12 +1,17 @@
 package com.example.demo.channels;
 
+import com.example.demo.exceptions.ApiRequestExeptions;
+import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.pack.pack;
 import com.example.demo.pack.packService;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.transaction.Transactional;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +31,21 @@ public class channelController {
     }
     @GetMapping("/show")
     public List<channel> showAll(){
+        if(channelService.getAllChannels().isEmpty()){
+            throw  new ApiRequestExeptions("No User could be loaded at this time");
+        }
       return  channelService.getAllChannels();
     }
-    @GetMapping("/show/name/{id}")
-        public List<channel> getChannelso(@PathVariable String id) {
-            return channelService.getchannelByName(id);
-        }
+//    @GetMapping("/show/name/{id}")
+//        public List<channel> getChannelso(@PathVariable String id) {
+//            return channelService.getchannelByName(id);
+//        }
     @GetMapping("/show/{id}")
+
     public channel getChannel(@PathVariable int id) {
+    if(!(channelService.containsKye(id))){
+        throw new NoEntityFound("not found");
+    }
         return channelService.getchannelById(id);
     }
         @GetMapping ("/delete/{name}")
@@ -64,9 +76,12 @@ public class channelController {
 
 
     @GetMapping("/request/{id}")
-    public List<channel> getWith(@PathVariable Integer id){
-       return  channelService.manytomany(id);
+    public List<channel> getWith(@PathVariable int id){
+        
+        return  channelService.manytomany(id);
     }
+
+
 
     @GetMapping("/category/{cat}")
     public List<channel> channelWithCattegoru(@PathVariable String cat){
@@ -81,6 +96,10 @@ public class channelController {
     @Transactional
     @DeleteMapping("/delete/{id}")
     public void delete (@PathVariable int id){
+        if(!(channelService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
+
         channelService.delete(id);
     }
 

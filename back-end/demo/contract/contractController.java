@@ -2,6 +2,7 @@ package com.example.demo.contract;
 
 import com.example.demo.channels.channel;
 import com.example.demo.channels.channelService;
+import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.pack.pack;
 import com.example.demo.pack.packService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +46,28 @@ public class contractController {
     }
     @GetMapping("/ChannelsInContract/{id}")
     public List<channel> getInContract(@PathVariable int id){
-        return channelService.getInContract(id);
+        if(!(contracService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
+        return  channelService.getInContract(id);
+
 
     }
     @GetMapping("/packagesInContract/{id}")
     public List<pack> getPInContract(@PathVariable int id){
+        if(!(contracService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
+
         return packageService.getInContract(id);
 
     }
 
     @PutMapping("addChannel/{contractId}/{channelid}")
     public contract addChannel(@PathVariable int contractId,@PathVariable int channelid){
+        if(!(channelService.containsKye(channelid) || contracService.containsKye(contractId))){
+            throw new NoEntityFound("not found");
+        }
         channel channel = new channel();
         channel =   channelService.getone(channelid);
         channel.setChannelcontract( contracService.getone(contractId));
@@ -67,6 +79,9 @@ public class contractController {
     }
     @PutMapping("addPackage/{contractId}/{packageId}")
     public contract addPackage(@PathVariable int contractId,@PathVariable int packageId){
+        if(!(packageService.containsKye(packageId) || contracService.containsKye(contractId))){
+            throw new NoEntityFound("not found");
+        }
         pack pack = packageService.getOne(packageId);
         pack.setPackcontract(contracService.getone(contractId));
         contract contract = contracService.getone(contractId);
@@ -96,6 +111,10 @@ public class contractController {
     }
     @GetMapping("/show/{id}")
     public Set<channel> getChannels(@PathVariable int id){
+        if(!(contracService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
+
        return contracService.getone(id).getChannelsInContract();
 
     }

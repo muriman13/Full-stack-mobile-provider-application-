@@ -2,6 +2,7 @@ package com.example.demo.pack;
 
 import com.example.demo.channels.channel;
 import com.example.demo.channels.channelService;
+import com.example.demo.exceptions.NoEntityFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,9 @@ public class packController {
     }
     @GetMapping("/sho/{id}")
         public pack getpack(@PathVariable int id) {
+        if(!(packService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
             return packService.getOne(id);
         }
 
@@ -39,6 +43,9 @@ public class packController {
     @RequestMapping("/update/{id}")
     @Transactional
     public void updatePack( @PathVariable Integer id){
+        if(!(packService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
         packService.updatePack("News",id);
     }
     @RequestMapping("/savePostPackage")
@@ -47,6 +54,10 @@ public class packController {
     }
     @PutMapping("/addto/{id}/{channel_id}")
     public pack add_channel_to_package (@PathVariable int id, @PathVariable int channel_id) throws Exception {
+
+        if(!(packService.containsKye(id) || channelService.containsKye(channel_id))){
+            throw new NoEntityFound("not found");
+        }
         pack pack = packService.getOne(id);
         channel channel = channelService.getone(channel_id);
         pack.addchannel(channel);
@@ -55,6 +66,9 @@ public class packController {
     @Transactional
     @DeleteMapping("/delete/package/{id}")
     public void delete (@PathVariable int id){
+        if(!(packService.containsKye(id))){
+            throw new NoEntityFound("not found");
+        }
         packService.delete(id);
     }
     @PutMapping("/update/package")
