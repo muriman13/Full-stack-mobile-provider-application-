@@ -1,30 +1,42 @@
 
-  <button class="button5" (click)="open(contract)" (click) = "getIdOfCreatedContract()"(click)="getChannels()">Create new contract</button>
+  <button class="button5"   style="color: darkorange;" (click)="open(contract)" (click) = "getIdOfCreatedContract()"(click)="getChannels()">Create new contract</button>
+  <button class="button5"  (click) = "updatePrice()">Renew contract prices</button>
   <!-- 
   <div *ngFor=" let number of idOfContract">
     {{number}}
   </div>> -->
   
   <ng-template #contract let-modal>
-    
-  <form #contractForm="ngForm" (ngSubmit)="onAddContract(contractForm)">
+ <div style="background-color: rgb(73, 34, 2);">
+   
+  <form #contractForm="ngForm" (ngSubmit)="onAddContract(contractForm)" >
     
     <label type ="hidden" for="id"></label><br>
     <input type="hidden" id="id"  ngModel ={{idOfContract}} name="id" ><br><br>
-    
+
     <label for="type">date:</label><br>
-    <input type="date" id="type" ngModel name="start_date"><br><br>
+    <input type="date" id="datestart" ngModel name="start_date"><br><br>
     <label for="price">date:</label><br>
-    <input type="date" id="price" ngModel name="end_date"><br><br>
-    <label for="pack_id">price:</label><br>
-    <input type="number" id="price" ngModel name="price"><br><br>
+    <input type="date" id="dateend" ngModel name="end_date"><br><br>
+    <label for="peice">price:</label><br>
+    <input type="number" id="price" ngModel = "{{contractPrice}}" name="price"><br><br>
+    <button (click)="getPriceOfContract(idOfContract!)"> recalculate price</button><br>
     <label for="name">name:</label><br>
-    <input type="text" id="name" ngModel name="name" ><br>
+    <input type="text" id="name" ngModel  name="name" ><br>
+    Client
+      <div class="box">
+      <select name="clients" ngModel id="clients" >
+        <option *ngFor="let clients of clientss" [ngValue]="clients" >
+          {{ clients.first_name }}
+        </option>
+      </select>
+      </div>
     <button class="button button" id= "ccchep"  (click)="modal.close('Save click')"  >ClickThsi one</button>
     
   </form>
   
   <div  class="absolute">
+    <h1>Slected channels</h1><br>
   <div>
     <table class="table table-striped">
       <thead>
@@ -46,8 +58,9 @@
   </div>
   </div>
   
-  
+ 
   <div  class="absolute2">
+    <h1>Slected packages</h1><br>
     <div>
       <table class="table table-striped">
         <thead>
@@ -101,10 +114,12 @@
             </option>
           </select>
          
-          <button  class="blue" id= "multiselect"  type="submit" value="Submit" >Select packages to Add packages</button>
+          <button  class="blue" id= "multiselect"  type="submit" value="Submit"  >Select packages to Add packages</button>
           
           </form>  
         
   </div>
+
+</div>
+
   </ng-template>
- 

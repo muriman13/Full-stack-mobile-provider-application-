@@ -107,11 +107,11 @@ export class ChannelListComponent implements OnInit {
     this.channelService.addChannel(addForm.value).subscribe(
       (response: Channel) =>{
         console.log(response);
-        location.reload();
+        
       },
       (error: HttpErrorResponse) =>{
         alert(error.message);
-        location.reload();
+       
       }
     );
   }

@@ -8,8 +8,8 @@ export interface contract{
     endDate: Date
     monthly_price: number
     price: number
-    channelsInContract: Channel[]
-    packagesInContract: packages[]
+    // channelsInContract: Channel[]
+    // packagesInContract: packages[]
     name: string
   }
 

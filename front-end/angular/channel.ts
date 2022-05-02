@@ -1,3 +1,4 @@
+import { contract } from "./contract";
 import { providers } from "./providers";
 
 export interface Channel{
@@ -7,4 +8,5 @@ export interface Channel{
   price: number;
 pack_id: number;
 providers: providers;
+contracts: contract[];
 }

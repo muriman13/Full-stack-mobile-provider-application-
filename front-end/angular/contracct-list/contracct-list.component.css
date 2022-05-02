@@ -1,9 +1,12 @@
 /* Dropdown Button */
 .blue {
   background-color: #0563af;
+  position: absolute;
   border: none;
   color: white;
   padding: 15px 32px;
+  left: 50%;
+  top: 92%;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -85,9 +88,10 @@
 
 
   body {
-    margin: 0;
+    margin: 30px;
     padding: 0;
-    background-color: #004882;
+    background-color: #ffffff;
+    opacity: 0.6;
   }
   
 
@@ -98,10 +102,10 @@
     color: white;
    
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     width: 50%;
-    height: 50%;
+    height: 200px;
     border: none;
     font-size: 20px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
@@ -170,3 +174,5 @@
     transition-duration: 0.4s;
     cursor: pointer;
   }
+
+  

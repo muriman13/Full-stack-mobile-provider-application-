@@ -8,6 +8,8 @@ import { providers } from '../providers';
 import { ProvidersService } from '../providers.service';
 import { ChannelService } from '../channel.service';
 import { PackageService } from '../package.service';
+import { ContractService } from '../contract.service';
+import { clients } from '../clients';
 
 @Component({
   selector: 'app-home',
@@ -25,18 +27,21 @@ export class HomeComponent implements OnInit {
   public id: number | undefined ;
   public SelectedPackageId: number | undefined;
   public providerss: providers[] | undefined;
-  constructor(private providersService: ProvidersService,private channelService: ChannelService,private packageService: PackageService,private modalService: NgbModal, private http: HttpClient) {}
+  public clientss: clients[] | undefined;
+  public payment: number | undefined;
+  constructor(private contractService: ContractService,private providersService: ProvidersService,private channelService: ChannelService,private packageService: PackageService,private modalService: NgbModal, private http: HttpClient) {}
   CloseResult = '';
   ngOnInit(): void {
     
     this.getChannels();
     this.getPackages();
     this.getproviders();
+    this.getallClients();
     // this.getPackages();
   }
 
   onClickSubmit(data: any) {
-    location.reload();
+  
     this.updateprice( data.providers.id,data.percent);
  }
 
@@ -245,6 +250,19 @@ public getChannelsByPackage(id: number): void{
     }
   )
 }
+
+public getPayments (id: number, name:string){
+this.contractService.getPayments(id).subscribe(
+  (response: number) => {
+    this.payment = response;
+    alert(this.payment + "leva have been paid by " + name);
+  }
+);
+
+}
+
+
+
 public getChannelsByCategory(id: string): void{
   this.channelService.getChannelByCategory(id).subscribe(
     (response: Channel[]) => {
@@ -255,6 +273,30 @@ public getChannelsByCategory(id: string): void{
     }
   )
 }
+public getallClients(): void{
+  this.contractService.getAllClients().subscribe(
+    (response: clients[]) => {
+      this.clientss = response;
+    },
+    (error: HttpErrorResponse) => {
+      alert(error.message);
+    }
+  )
+}
+
+public onAddClient(addclient: NgForm): void{
+  this.contractService.saveClient(addclient.value).subscribe(
+    (response: clients) =>{
+      console.log(response);
+      
+    },
+    (error: HttpErrorResponse) =>{
+      alert(error.message);
+     
+    }
+  );
+}
+
 
 }
 

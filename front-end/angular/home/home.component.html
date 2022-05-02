@@ -6,10 +6,12 @@
         <button class="button5" (click)="open(KursMade)" >Add Channels to Package</button>
         <button class="button5" (click)="open(IncreasePrice)" >Increase Price</button>
         <button class="button5" (click)="getChannels()" > Refressh channels</button>
+        <button class="button5" (click)="open(clients)" >Add new client</button>
        
       <app-channel-list></app-channel-list>
     <app-contracct-list></app-contracct-list>
     <app-packages-list></app-packages-list>
+    <app-providers></app-providers>
     <div class="dropdown">
       <button class="dropbtn">Packages</button>
       <div class="dropdown-content" >
@@ -22,14 +24,25 @@
         <a (click)="getChannelsByCategory('Music')" >Music</a>
         <a (click)="getChannelsByCategory('Comedy')"> Comedy</a>
         <a (click)="getChannelsByCategory('News')">News</a>
+        <a (click)="getChannelsByCategory('Sport')">Sport</a>
+        <a (click)="getChannelsByCategory('Children')">Children</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">Payments of Client</button>
+      <div class="dropdown-content" >
+        <a *ngFor="let clients of clientss" (click)="getPayments(clients.id, clients.first_name)">{{ clients.first_name }}</a>
       </div>
     </div>
       </div>
     <h1>All channels</h1>
     <ng-template #contentUpdate let-modal>
     <form #updateChannel="ngForm">
-      <label type ="hidden" for="id"></label><br>
+      
+
+        <label type ="hidden" for="id"></label><br>
         <input type="hidden" id="id"  ngModel ={{channel?.id}} name="id" ><br><br>
+
         
       <label for="name">name:</label><br>
       <input type="text" id="name" ngModel ={{channel?.name}} name="name" ><br>
@@ -40,6 +53,9 @@
       <label for="pack_id">pack_id:</label><br>
       <input type="text" id="pack_id" ngModel ={{channel?.pack_id}} name="pack_id"><br><br>
       
+      <!-- <label type ="hidden" for="contract_id"></label><br>
+      <input type="hidden" id="contract_id"  ngModel ={{channel?.contract_id}} name="contract_id" ><br><br> -->
+
       <div class="box">
         <select name="providers" ngModel id="providers" >
           <option *ngFor="let providers of providerss" [ngValue]="providers" >
@@ -81,6 +97,9 @@
       <th style="color: red;">Name</th>
       <th style="color: red;">price</th>  
       <th style="color: red;"> type</th>
+      <th style="color: red;"> provider</th>
+      <th style="color: red;"> update</th>
+      <th style="color: red;"> delete</th>
       </tr>
         </thead>
           <tbody *ngFor="let channela of channels" >
@@ -88,6 +107,7 @@
               <td style="color: red;">{{channela?.name}}</td>
                <td style="color: red;">{{channela?.price}}</td>
                <td style="color: red;">{{channela?.type}}</td>
+               <td style="color: red;">{{channela?.providers?.name}}</td>
                <td >
                 <button (click)="update" (click)="open(contentUpdate)" (click)="getChannelByid(channela.id)">+</button>
                </td>
@@ -99,21 +119,23 @@
           </tbody>> 
       </table>>
     
-      All Packages
+     <h1 style="color:rgb(96, 96, 228);"> All Packages </h1>
       <table class="table table-striped">
         <thead>
       <tr>
       <th style="color: rgb(96, 96, 228);">Name</th>
       <th style="color: rgb(96, 96, 228);">price</th>  
-      <th style="color: rgb(96, 96, 228);">type</th>
+      <th style="color: rgb(96, 96, 228);">provider</th>
+      <th style="color: rgb(96, 96, 228);">update</th>
+      <th style="color: rgb(96, 96, 228);">delete</th>
       </tr>
         </thead>
           <tbody *ngFor="let packages of packagess">
            <tr>
               <td style="color: rgb(96, 96, 228);"> {{packages?.name}}</td>
                <td style="color: rgb(96, 96, 228);">{{packages?.price}}</td>
-               <td style="color: rgb(96, 96, 228);">
-                <button (click)="update" (click)="open(contentUpdatePackage)" (click)="getPackagesbyId(packages.id)">+</button>
+               <td style="color: rgb(96, 96, 228);">{{packages?.providersInpackage?.name}}</td>
+               <td> <button (click)="update" (click)="open(contentUpdatePackage)" (click)="getPackagesbyId(packages.id)">+</button>
                </td>
                <td style="color: rgb(96, 96, 228);">
                 <button (click)="deletePackage(packages.id)">-</button>
@@ -165,6 +187,21 @@
         
       </form>
      </ng-template>
+     <ng-template #clients let-modal>
+      <form #addclient="ngForm" (ngSubmit)="onAddClient(addclient)">
+        <label for="fname">fname:</label><br>
+        <input type="text" id="fname" ngModel ={{channel?.name}} name="first_name" ><br>
+        <label for="type">lname:</label><br>
+        <input type="text" id="lname" ngModel ={{channel?.type}} name="last_name"><br><br>        
+        <button class="button button"  id= "che111p"  type="submit" value="Submit" (click)="modal.close('Save click')">ClickThsi One</button>
+        
+      </form>
+      </ng-template>
+
+     
+         
+        
+        
      <br>
      
     
