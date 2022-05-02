@@ -1,0 +1,125 @@
+
+  <button class="button5"   style="color: darkorange;" (click)="open(contract)" (click) = "getIdOfCreatedContract()"(click)="getChannels()">Create new contract</button>
+  <button class="button5"  (click) = "updatePrice()">Renew contract prices</button>
+  <!-- 
+  <div *ngFor=" let number of idOfContract">
+    {{number}}
+  </div>> -->
+  
+  <ng-template #contract let-modal>
+ <div style="background-color: rgb(73, 34, 2);">
+   
+  <form #contractForm="ngForm" (ngSubmit)="onAddContract(contractForm)" >
+    
+    <label type ="hidden" for="id"></label><br>
+    <input type="hidden" id="id"  ngModel ={{idOfContract}} name="id" ><br><br>
+
+    <label for="type">date:</label><br>
+    <input type="date" id="datestart" ngModel name="start_date"><br><br>
+    <label for="price">date:</label><br>
+    <input type="date" id="dateend" ngModel name="end_date"><br><br>
+    <label for="peice">price:</label><br>
+    <input type="number" id="price" ngModel = "{{contractPrice}}" name="price"><br><br>
+    <button (click)="getPriceOfContract(idOfContract!)"> recalculate price</button><br>
+    <label for="name">name:</label><br>
+    <input type="text" id="name" ngModel  name="name" ><br>
+    Client
+      <div class="box">
+      <select name="clients" ngModel id="clients" >
+        <option *ngFor="let clients of clientss" [ngValue]="clients" >
+          {{ clients.first_name }}
+        </option>
+      </select>
+      </div>
+    <button class="button button" id= "ccchep"  (click)="modal.close('Save click')"  >ClickThsi one</button>
+    
+  </form>
+  
+  <div  class="absolute">
+    <h1>Slected channels</h1><br>
+  <div>
+    <table class="table table-striped">
+      <thead>
+    <tr>
+    <th>Name</th>
+    <th>price</th>  
+    <th>id</th>
+    </tr>
+      </thead>
+        <tbody *ngFor="let channel of channelsForContract">
+         <tr>
+            <td>{{channel?.name}}</td>
+             <td>{{channel?.price}}</td>
+             <td>{{channel?.id}}</td>
+            </tr>
+        <tr>
+        </tbody>> 
+    </table>>
+  </div>
+  </div>
+  
+ 
+  <div  class="absolute2">
+    <h1>Slected packages</h1><br>
+    <div>
+      <table class="table table-striped">
+        <thead>
+      <tr>
+      <th>Name</th>
+      <th>price</th>  
+      <th>id</th>
+      </tr>
+        </thead>
+          <tbody *ngFor="let packages of packagesForContract">
+           <tr>
+               <td>{{packages?.name}}</td>
+               <td>{{packages?.price}}</td>
+               <td>{{packages?.id}}</td>
+              </tr>
+          <tr>
+          </tbody>> 
+      </table>>
+    </div>
+    </div>
+  
+  
+  <div >
+    
+    <form #contractFormAddChannels="ngForm" (ngSubmit)="onListSend(contractFormAddChannels)">
+      <div class="box" >
+    <select multiple name="channel" ngModel >
+      <option *ngFor="let channel of channels" [ngValue]="channel" >
+        {{ channel.name }}
+        {{ channel.providers?.name}}
+     
+      </option>
+      <br>
+    </select>
+      </div>
+
+    <button class="button button" id= "multiselect"  type="submit" value="Submit" >Select chanels to add</button>
+  
+    </form> 
+  </div>
+      
+       
+     
+       <div class="box2">
+        <form #contractFormAddPackage="ngForm" (ngSubmit)="onListSendPackage(contractFormAddPackage)">
+          
+          <select multiple name="package" ngModel >
+            <option *ngFor="let packages of packagess" [ngValue]="packages">
+              {{ packages.name }}
+              {{ packages.providersInpackage?.name}}
+            </option>
+          </select>
+         
+          <button  class="blue" id= "multiselect"  type="submit" value="Submit"  >Select packages to Add packages</button>
+          
+          </form>  
+        
+  </div>
+
+</div>
+
+  </ng-template>
