@@ -2,6 +2,9 @@ package com.example.demo.contract;
 
 import com.example.demo.channels.channel;
 import com.example.demo.channels.channelService;
+import com.example.demo.clients.clients;
+import com.example.demo.clients.clientsRepo;
+import com.example.demo.clients.clientsService;
 import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.pack.pack;
 import com.example.demo.pack.packService;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +28,8 @@ public class contractController {
     private channelService channelService;
     @Autowired
    private packService packageService;
+    @Autowired
+    private clientsService clientService;
     @GetMapping("getall")
     public List<contract> getall(){
         return contracService.getall();
@@ -33,33 +39,39 @@ public class contractController {
     public void savecontract(@RequestBody contract contract){
         contracService.saveContact(contract);
     }
-    @PostMapping("saveId")
+    @PutMapping("saveId")
     public int savecontractAndGetId(@RequestBody contract contract){
+        contract.setPrice(contracService.calculatePrice(contract.id));
+        contract.setChannelsInContract(contracService.getone(contract.id).getChannelsInContract());
+        contract.setPackagesInContract(contracService.getone(contract.id).getPackagesInContract());
         contracService.saveContact(contract);
         return contract.id;
     }
     @PostMapping("saveIdEmpty")
-    public void savecontractAndGetIdEmpty(){
-      contract contract =  new contract();
-        contracService.saveContact(new contract());
+    public int savecontractAndGetIdEmpty(@RequestBody contract contract){
+
+        contracService.saveContact(contract);
+        return contract.id;
 
     }
     @GetMapping("/ChannelsInContract/{id}")
-    public List<channel> getInContract(@PathVariable int id){
+    public Set<channel> getInContract(@PathVariable int id){
         if(!(contracService.containsKye(id))){
             throw new NoEntityFound("not found");
         }
-        return  channelService.getInContract(id);
+        return contracService.getone(id).getChannelsInContract();
+//        return  channelService.getInContract(id);
 
 
     }
     @GetMapping("/packagesInContract/{id}")
-    public List<pack> getPInContract(@PathVariable int id){
+    public Set<pack> getPInContract(@PathVariable int id){
         if(!(contracService.containsKye(id))){
             throw new NoEntityFound("not found");
         }
 
-        return packageService.getInContract(id);
+
+        return contracService.getone(id).getPackagesInContract();
 
     }
 
@@ -70,7 +82,7 @@ public class contractController {
         }
         channel channel = new channel();
         channel =   channelService.getone(channelid);
-        channel.setChannelcontract( contracService.getone(contractId));
+        channel.addContract( contracService.getone(contractId));
         contract contract = new contract();
         contract  = contracService.getone(contractId);
         contract.addChannels(channel);
@@ -83,7 +95,7 @@ public class contractController {
             throw new NoEntityFound("not found");
         }
         pack pack = packageService.getOne(packageId);
-        pack.setPackcontract(contracService.getone(contractId));
+        pack.addCon(contracService.getone(contractId));
         contract contract = contracService.getone(contractId);
         contract.addPackage(pack);
         return contracService.saveContact(contract);
@@ -122,6 +134,15 @@ public class contractController {
     public contract update ( @RequestBody contract Oldcontract){
         contract contract = contracService.update(Oldcontract);
         return contract;
+    }
+    @GetMapping("/getPricceOfContract/{id}")
+    public double getprice(@PathVariable int id){
+       return contracService.calculatePrice(id);
+    }
+
+    @GetMapping("updateprice")
+    public void updateprice(){
+        contracService.UpdatePrices();
     }
 
 }

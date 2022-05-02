@@ -29,8 +29,9 @@ public class contracService {
 
     public contract saveContractWithChannels(Set<channel> channelsInContract, Set<pack> packagesInContract, Date start_date,Date end_date, double monthly_price,double price,
     String name ) {
-        contract contract = new contract(start_date,end_date,monthly_price,price,name,channelsInContract,packagesInContract);
-        return   contractRepo.save(contract);
+//        contract contract = new contract(start_date,end_date,monthly_price,price,name,channelsInContract,packagesInContract);
+//        return   contractRepo.save(contract);
+        return null;
     }
 
     public contract getone(int contractId) {
@@ -42,6 +43,34 @@ public class contracService {
     }
     public boolean containsKye(int id){
         return contractRepo.existsById(id);
+    }
+    public contract getContractOfUserId(int id){
+        return contractRepo.getContractOfUser(id);
+    }
+
+    public double calculatePrice (int contract_id){
+        contract contract = contractRepo.findById(contract_id).get();
+        double contractMonthlyPrice = 0;
+        Set<channel> channels = contract.getChannelsInContract();
+        for(channel c : channels){
+            contractMonthlyPrice += c.getPrice();
+        }
+       Set<pack> packages = contract.getPackagesInContract();
+        for(pack p : packages){
+            contractMonthlyPrice += p.getPrice();
+        }
+
+        return contractMonthlyPrice;
+
+    }
+
+    public void UpdatePrices(){
+       List<contract> test = new ArrayList<>();
+       contractRepo.findAll().forEach(test::add);
+        for(int i=0; i< test.size(); i++){
+            contractRepo.updatePriceContract(calculatePrice(test.get(i).getId()),test.get(i).getId());
+        }
+
     }
 
 }

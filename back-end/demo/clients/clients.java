@@ -1,6 +1,7 @@
 package com.example.demo.clients;
 
 import com.example.demo.contract.contract;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,13 +10,19 @@ import java.util.Date;
 @Table(name = "clients")
 public class clients {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int id;
     private String first_name;
     private String last_name;
     //channels_id //ne e nujno ne go pishi
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contract_id" , referencedColumnName = "id")
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinTable(name = "Clients_contract",
+//            joinColumns =
+//                    { @JoinColumn(name = "clients_id", referencedColumnName = "id") },
+//            inverseJoinColumns =
+//                    { @JoinColumn(name = "contract_id", referencedColumnName = "id") })
+    @JsonIgnore
+    @OneToOne(mappedBy = "clients", optional = true)
     private com.example.demo.contract.contract contract;
 
     public com.example.demo.contract.contract getContract() {

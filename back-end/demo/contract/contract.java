@@ -1,8 +1,10 @@
 package com.example.demo.contract;
 
 import com.example.demo.channels.channel;
+import com.example.demo.clients.clients;
 import com.example.demo.pack.pack;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.xml.crypto.Data;
@@ -24,13 +26,29 @@ public class contract {
     //int package_id;
     double price;
     String name;
-//    channels_id //ne e nujno ne go pishi
-//    one to ona si go napravil, psle shte se chudish  //prav bqh chudih se
-//    gladen sum
-    @OneToMany(mappedBy = "channelcontract" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "client_id", referencedColumnName = "id",nullable = true)
+    private com.example.demo.clients.clients clients;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "channels_in_contract",
+            joinColumns = {
+                    @JoinColumn(name = "contract_id", referencedColumnName = "id"
+                    )},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "channel_id", referencedColumnName = "id"
+                    )})
     private Set<channel> channelsInContract = new HashSet<>();
 
-    @OneToMany(mappedBy = "packcontract" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "packages_in_contract",
+            joinColumns = {
+                    @JoinColumn(name = "contract_id", referencedColumnName = "id"
+                    )},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "packages_id", referencedColumnName = "id"
+                    )})
     private Set<pack> packagesInContract = new HashSet<>();
 
     public contract(Date start_date, Date end_date, double price, String name) {
@@ -61,6 +79,14 @@ public class contract {
 
     public String getName() {
         return name;
+    }
+
+    public com.example.demo.clients.clients getClients() {
+        return clients;
+    }
+
+    public void setClients(com.example.demo.clients.clients clients) {
+        this.clients = clients;
     }
 
     public void setName(String name) {
@@ -137,17 +163,27 @@ public class contract {
         packagesInContract.add(packages);
     }
 
-    public contract(Date start_date, Date end_date, double monthly_price, double price, String name, Set<channel> channelsInContract, Set<pack> packagesInContract) {
+    public contract(int id, Date start_date, Date end_date, double monthly_price, double price, String name, com.example.demo.clients.clients clients, Set<channel> channelsInContract, Set<pack> packagesInContract) {
+        this.id = id;
         this.start_date = start_date;
         this.end_date = end_date;
         this.monthly_price = monthly_price;
         this.price = price;
         this.name = name;
-        this.channelsInContract = channelsInContract;
-        this.packagesInContract = packagesInContract;
+        this.clients = clients;
+
+
     }
 
-
+    public contract(int id, Date start_date, Date end_date, double monthly_price, double price, String name, com.example.demo.clients.clients clients) {
+        this.id = id;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.monthly_price = monthly_price;
+        this.price = price;
+        this.name = name;
+        this.clients = clients;
+    }
 
     public contract(String name) {
         this.name = name;

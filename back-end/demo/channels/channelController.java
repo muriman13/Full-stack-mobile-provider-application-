@@ -77,7 +77,7 @@ public class channelController {
 
     @GetMapping("/request/{id}")
     public List<channel> getWith(@PathVariable int id){
-        
+
         return  channelService.manytomany(id);
     }
 

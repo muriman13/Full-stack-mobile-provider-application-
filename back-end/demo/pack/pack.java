@@ -34,9 +34,8 @@ public class pack {
 //    @ManyToMany(mappedBy = "packagesOfProviders", fetch = FetchType.LAZY)
 //    private Set<com.example.demo.providers.providers> providers = new HashSet<>();
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "contract_id",referencedColumnName = "id",nullable = true)
-    private com.example.demo.contract.contract packcontract;
+    @ManyToMany(mappedBy = "packagesInContract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<contract> contracts = new HashSet<>();
 
 //    public Set<com.example.demo.providers.providers> getProviders() {
 //        return providers;
@@ -49,12 +48,12 @@ public class pack {
 @JoinColumn(name = "providers_id",nullable = true)
 private providers providersInpackage;
 
-    public contract getPackcontract() {
-        return packcontract;
+    public Set<contract> getContracts() {
+        return contracts;
     }
 
-    public void setPackcontract(contract packcontract) {
-        this.packcontract = packcontract;
+    public void setContracts(Set<contract> contracts) {
+        this.contracts = contracts;
     }
 
     public Set<channel> getChannels() {
@@ -124,5 +123,9 @@ private providers providersInpackage;
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void addCon(contract contract){
+        contracts.add(contract);
     }
 }

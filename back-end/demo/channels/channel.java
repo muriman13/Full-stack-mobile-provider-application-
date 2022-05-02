@@ -3,6 +3,7 @@ package com.example.demo.channels;
 
 import com.example.demo.contract.contract;
 import com.example.demo.pack.pack;
+import com.example.demo.contract.contract;
 import com.example.demo.providers.providers;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,31 +23,34 @@ public class channel  {
     private String type;
     private Double price;
     private Integer pack_id;
-    @Column(insertable = false, updatable = false)
-    private Integer contract_id;
-   @JsonIgnore
+    @JsonIgnore
+    @ManyToMany(mappedBy = "channelsInContract", fetch = FetchType.LAZY)
+    private Set<contract> contracts = new HashSet<>();
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "channels", fetch = FetchType.LAZY)
     private Set<pack> packs = new HashSet<>();
    // @JsonIgnore
 //    @ManyToMany(mappedBy = "channelsofproviders", fetch = FetchType.LAZY)
 //    private Set<com.example.demo.providers.providers> providers;
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "contract_id",nullable = true)
-    private contract channelcontract;
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "contract_id",nullable = true)
+//    private contract channelcontract;
+
 
 
     @ManyToOne
     @JoinColumn(name = "providers_id",nullable = true)
     private providers providers;
 
-    public contract getChannelcontract() {
-        return channelcontract;
-    }
-
-    public void setChannelcontract(contract channelcontract) {
-        this.channelcontract = channelcontract;
-    }
+//    public contract getChannelcontract() {
+//        return channelcontract;
+//    }
+//
+//    public void setChannelcontract(contract channelcontract) {
+//        this.channelcontract = channelcontract;
+//    }
 
 //    public Set<com.example.demo.providers.providers> getProviders() {
 //        return providers;
@@ -56,6 +60,14 @@ public class channel  {
 //        this.providers = providers;
 //    }
 
+
+    public Set<contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<contract> contracts) {
+        this.contracts = contracts;
+    }
 
     public providers getProviders() {
         return providers;
@@ -106,25 +118,17 @@ public class channel  {
         this.pack_id = pack_id;
     }
 
-    public Integer getContract_id() {
-        return contract_id;
-    }
 
-    public void setContract_id(Integer contract_id) {
-        this.contract_id = contract_id;
-    }
 
-    public channel(String name, String type, Double price, Integer pack_id, Integer contract_id, Set<pack> packs, contract channelcontract, providers providers) {
+    public channel(String name, String type, Double price, Integer pack_id, Set<contract> contracts, Set<pack> packs, com.example.demo.providers.providers providers) {
         this.name = name;
         this.type = type;
         this.price = price;
         this.pack_id = pack_id;
-        this.contract_id = contract_id;
+        this.contracts = contracts;
         this.packs = packs;
-        this.channelcontract = channelcontract;
         this.providers = providers;
     }
-
 
     public channel(String name, String type, Double price, Integer pack_id) {
         this.id = id;
@@ -149,4 +153,9 @@ public class channel  {
     public void setId(int id) {
         this.id = id;
     }
+    public void addContract(contract contract){
+        contracts.add(contract);
+    }
+
+
 }

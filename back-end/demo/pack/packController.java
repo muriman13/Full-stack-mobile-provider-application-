@@ -2,6 +2,7 @@ package com.example.demo.pack;
 
 import com.example.demo.channels.channel;
 import com.example.demo.channels.channelService;
+import com.example.demo.exceptions.ApiRequestExeptions;
 import com.example.demo.exceptions.NoEntityFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public class packController {
     }
     @GetMapping("/sho")
     public List<pack> showAll(){
+        if(packService.getAllpacks().isEmpty()){
+            throw  new ApiRequestExeptions("No User could be loaded at this time");
+        }
       return  packService.getAllpacks();
     }
     @GetMapping("/sho/{id}")
