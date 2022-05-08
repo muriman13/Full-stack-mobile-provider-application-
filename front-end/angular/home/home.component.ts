@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Channel } from '../channel';
@@ -10,6 +10,7 @@ import { ChannelService } from '../channel.service';
 import { PackageService } from '../package.service';
 import { ContractService } from '../contract.service';
 import { clients } from '../clients';
+import { Observable, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ import { clients } from '../clients';
 })
 export class HomeComponent implements OnInit {
 
-
+  userName: string | undefined;
+  headers : HttpHeaders | undefined;
   public channel!: Channel;
   public packages!: packages;
   title: any;
@@ -32,6 +34,12 @@ export class HomeComponent implements OnInit {
   constructor(private contractService: ContractService,private providersService: ProvidersService,private channelService: ChannelService,private packageService: PackageService,private modalService: NgbModal, private http: HttpClient) {}
   CloseResult = '';
   ngOnInit(): void {
+
+        let url = 'http://localhost:8080/user';
+         this.headers = new HttpHeaders({
+            'Authorization': 'Basic ' + sessionStorage.getItem('token')
+        });
+      
     
     this.getChannels();
     this.getPackages();
@@ -39,6 +47,22 @@ export class HomeComponent implements OnInit {
     this.getallClients();
     // this.getPackages();
   }
+
+  logout() {
+    sessionStorage.setItem('token', '');
+}
+private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    return throwError(
+      'Something bad happened; please try again later.');
+  };
+
 
   onClickSubmit(data: any) {
   
@@ -163,20 +187,20 @@ public getPackages(): void{
     (response: packages[]) => {
       this.packagess = response;
     },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-    }
+    // (error: HttpErrorResponse) => {
+    //   alert(error.message);
+    // }
   )
 }
 
 public getChannels(): void{
-  this.channelService.getChannel().subscribe(
+  this.channelService.getChannel(this.headers!).subscribe(
     (response: Channel[]) => {
       this.channels = response;
     },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-    }
+    // (error: HttpErrorResponse) => {
+    //   alert(error.message);
+    // }
   )
 }
 

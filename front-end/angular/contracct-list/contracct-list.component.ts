@@ -3,7 +3,7 @@ import { Channel } from '../channel';
 import { packages } from '../packages';
 import { ChannelService } from '../channel.service';
 import { PackageService } from '../package.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ContractService } from '../contract.service';
 import { contract } from '../contract';
 import {NgbModal, ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -19,6 +19,7 @@ import { clients } from '../clients';
 export class ContracctListComponent implements OnInit {
   
   public channels: Channel[] | undefined;
+  headers : HttpHeaders | undefined;
   public clientss: clients[] | undefined;
   public channelsForContract: Channel[] | undefined;
   public packagesForContract: packages[] | undefined;
@@ -33,6 +34,10 @@ export class ContracctListComponent implements OnInit {
   CloseResult = '';
 
   ngOnInit(): void {
+    let url = 'http://localhost:8080/user';
+    this.headers = new HttpHeaders({
+       'Authorization': 'Basic ' + sessionStorage.getItem('token')
+   });
     this.getChannels();
     this.getPackages();
     this.getallClients();
@@ -42,6 +47,7 @@ export class ContracctListComponent implements OnInit {
     this.getallClients();
     this.http.post<number>('http://localhost:8080/contract/saveIdEmpty/', { title: 'Angular POST Request Example' }).subscribe(data => {
         this.idOfContract = data;
+        alert(this.idOfContract!);
      
     })
   }
@@ -120,7 +126,7 @@ public updatePrice(){
 
 
   public getChannels(): void{
-    this.channelService.getChannel().subscribe(
+    this.channelService.getChannel(this.headers!).subscribe(
       (response: Channel[]) => {
         this.channels = response;
       },

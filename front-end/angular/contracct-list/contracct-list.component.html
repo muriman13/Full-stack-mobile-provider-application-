@@ -1,5 +1,5 @@
 
-  <button class="button5"   style="color: darkorange;" (click)="open(contract)" (click) = "getIdOfCreatedContract()"(click)="getChannels()">Create new contract</button>
+  <button class="button5"    (click)="open(contract)" (click) = "getIdOfCreatedContract()"(click)="getChannels()">Create new contract</button>
   <button class="button5"  (click) = "updatePrice()">Renew contract prices</button>
   <!-- 
   <div *ngFor=" let number of idOfContract">
@@ -7,8 +7,9 @@
   </div>> -->
   
   <ng-template #contract let-modal>
- <div style="background-color: rgb(73, 34, 2);">
-   
+ <div>
+   <br>
+  <h1 style="color: white; text-align: center;">Create contract</h1><br>
   <form #contractForm="ngForm" (ngSubmit)="onAddContract(contractForm)" >
     
     <label type ="hidden" for="id"></label><br>
@@ -20,67 +21,21 @@
     <input type="date" id="dateend" ngModel name="end_date"><br><br>
     <label for="peice">price:</label><br>
     <input type="number" id="price" ngModel = "{{contractPrice}}" name="price"><br><br>
-    <button (click)="getPriceOfContract(idOfContract!)"> recalculate price</button><br>
-    <label for="name">name:</label><br>
+    <button class="button5" style= "background-color: red;" (click)="getPriceOfContract(idOfContract!)"> recalculate price</button><br>
+    <label for="name">name of contract(not needed):</label><br>
     <input type="text" id="name" ngModel  name="name" ><br>
-    Client
+    <label>CLIENT:</label><br>
       <div class="box">
       <select name="clients" ngModel id="clients" >
         <option *ngFor="let clients of clientss" [ngValue]="clients" >
-          {{ clients.first_name }}
+          {{ clients.fname }}
         </option>
       </select>
       </div>
-    <button class="button button" id= "ccchep"  (click)="modal.close('Save click')"  >ClickThsi one</button>
+    <button class="button5" id= "ccchep"  (click)="modal.close('Save click')"  >ClickThsi one</button>
     
   </form>
-  
-  <div  class="absolute">
-    <h1>Slected channels</h1><br>
-  <div>
-    <table class="table table-striped">
-      <thead>
-    <tr>
-    <th>Name</th>
-    <th>price</th>  
-    <th>id</th>
-    </tr>
-      </thead>
-        <tbody *ngFor="let channel of channelsForContract">
-         <tr>
-            <td>{{channel?.name}}</td>
-             <td>{{channel?.price}}</td>
-             <td>{{channel?.id}}</td>
-            </tr>
-        <tr>
-        </tbody>> 
-    </table>>
-  </div>
-  </div>
-  
- 
-  <div  class="absolute2">
-    <h1>Slected packages</h1><br>
-    <div>
-      <table class="table table-striped">
-        <thead>
-      <tr>
-      <th>Name</th>
-      <th>price</th>  
-      <th>id</th>
-      </tr>
-        </thead>
-          <tbody *ngFor="let packages of packagesForContract">
-           <tr>
-               <td>{{packages?.name}}</td>
-               <td>{{packages?.price}}</td>
-               <td>{{packages?.id}}</td>
-              </tr>
-          <tr>
-          </tbody>> 
-      </table>>
-    </div>
-    </div>
+
   
   
   <div >
@@ -97,14 +52,14 @@
     </select>
       </div>
 
-    <button class="button button" id= "multiselect"  type="submit" value="Submit" >Select chanels to add</button>
+    <button class="button5" id= "multiselect"  type="submit" value="Submit" >Select chanels to add</button>
   
     </form> 
   </div>
       
        
      
-       <div class="box2">
+       <div class="box" >
         <form #contractFormAddPackage="ngForm" (ngSubmit)="onListSendPackage(contractFormAddPackage)">
           
           <select multiple name="package" ngModel >
@@ -113,13 +68,58 @@
               {{ packages.providersInpackage?.name}}
             </option>
           </select>
-         
-          <button  class="blue" id= "multiselect"  type="submit" value="Submit"  >Select packages to Add packages</button>
+         <br>
+          <button  class="button5" id= "multiselect"  type="submit" value="Submit"  >Select packages to Add packages</button>
           
           </form>  
         
   </div>
+  <br>
+  
+    <h1 style="color: white">Selected channels</h1><br>
 
-</div>
+    <table class="table table-striped">
+      <thead>
+    <tr >
+    <th style="color: white">Name</th>
+    <th style="color: white">price</th>  
+    <th style="color: white">id</th>
+    </tr>
+      </thead>
+        <tbody *ngFor="let channel of channelsForContract">
+         <tr>
+            <td style="color: white">{{channel?.name}}</td>
+             <td style="color: white">{{channel?.price}}</td>
+             <td style="color: white">{{channel?.id}}</td>
+            </tr>
+        <tr>
+        </tbody>
+    </table>
 
+  
+
+    <h1 style="color: white"> Selected packages</h1><br>
+ 
+      <table class="table table-striped">
+        <thead>
+      <tr>
+      <th style="color: white">Name</th>
+      <th style="color: white">price</th>  
+      <th style="color: white">id</th>
+      </tr>
+        </thead>
+          <tbody *ngFor="let packages of packagesForContract">
+           <tr>
+               <td style="color: white">{{packages?.name}}</td>
+               <td style="color: white">{{packages?.price}}</td>
+               <td style="color: white">{{packages?.id}}</td>
+              </tr>
+          <tr>
+          </tbody>>
+      </table>
+
+
+
+  
+    </div>
   </ng-template>
