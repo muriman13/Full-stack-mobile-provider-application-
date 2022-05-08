@@ -2,7 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Clients;
 import com.example.demo.entities.Contract;
-import com.example.demo.repsitories.ClientsRepo;
+import com.example.demo.repositories.ClientsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class ClientsService {
     @Autowired
     private ContractService contractService;
 
-    public List<Clients> getall() {
+    public List<Clients> getAll() {
         List<Clients> test = new ArrayList<>();
         clientsRepo.findAll().forEach(test::add);
         return test;
@@ -31,8 +31,8 @@ public class ClientsService {
         clientsRepo.save(clients);
     }
 
-    public void save(Clients clients) {
-        clientsRepo.save(clients);
+    public Clients save(Clients clients) {
+      return  clientsRepo.save(clients);
     }
 
     public void getById(int id) {
@@ -52,26 +52,18 @@ public class ClientsService {
     }
 
     public double AllMadePayments2(int clientId){
-        Date date = new Date();
-        LocalDateTime date1  = convertToLocalDateTimeViaInstant(date);
         Contract contract = contractService.getContractOfUserId(clientId);
-        LocalDateTime date2 = convertToLocalDateTimeViaInstant(contract.getStart_date());
-        long months = ChronoUnit.MONTHS.between(date2,date1);
+        long months = ChronoUnit.MONTHS.between(convertToLocalDateTimeViaInstant(contract.getStart_date()),convertToLocalDateTimeViaInstant(new Date()));
         return months * contract.getPrice();
 
     }
-    public double AllMadePayments(int clientId){
+    public double allMadePayments(int clientId){
         Contract contract  = contractService.getContractOfUserId(clientId);
         if(contract.getLast_date() == null || contract.getLast_date().equals(0) ){
             contract.setLast_date(contract.getStart_date());
         }
-        Date date = new Date();
-        LocalDateTime date1  = convertToLocalDateTimeViaInstant(date);
-        LocalDateTime date2 = convertToLocalDateTimeViaInstant(contract.getLast_date());
-
-        long months = ChronoUnit.MONTHS.between(date2,date1);
         double payments = contract.getTotal_payments();
-        payments+= months * contract.getPrice();
+        payments+= ChronoUnit.MONTHS.between(convertToLocalDateTimeViaInstant(contract.getLast_date()),convertToLocalDateTimeViaInstant(new Date())) * contract.getPrice();
         contract.setTotal_payments(payments);
         contract.setLast_date(new Date());
         contractService.saveContact(contract);

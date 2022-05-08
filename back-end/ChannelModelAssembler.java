@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
         @Override
         public EntityModel<Channel> toModel(Channel channel) {
-
             return EntityModel.of(channel, //
                     linkTo(methodOn(ChannelController.class).getChannel(channel.getId())).withSelfRel(),
                     linkTo(methodOn(ChannelController.class).showAll()).withRel("channels"));

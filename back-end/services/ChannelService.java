@@ -2,12 +2,12 @@ package com.example.demo.services;
 
 import com.example.demo.exceptions.ApiRequestExeptions;
 import com.example.demo.exceptions.NoEntityFound;
-import com.example.demo.repsitories.ChannelRepository;
+import com.example.demo.repositories.ChannelRepository;
 import com.example.demo.entities.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class ChannelService {
         }
         return channels;
     }
-    public boolean containsKye(int id){
+    public boolean containsKey(int id){
         return channelrepository.existsById(id);
     }
     public List<Channel> getchannelByName(String id){
@@ -40,22 +40,19 @@ public class ChannelService {
     public void deleteByname(String name){
         channelrepository.deleteByname(name);
     }
-    public void deleteall(){
+    public void deleteAll(){
         channelrepository.deleteAll();
     }
-    public void addABunch(){
-       channelrepository.save(new Channel("name","news",155.12,20));
 
+    public List<Channel> manytomany(Integer id){
+        return channelrepository.withCertainId(id).orElseThrow(()-> new NoEntityFound("No channels with that category"));
     }
-
-
-
 
     public Channel savePost (Channel channel){
         return channelrepository.save(channel);
     }
 
-    public Channel getone(int id)  {
+    public Channel getOne(int id)  {
         return channelrepository.findById(id).orElseThrow(() -> new NoEntityFound("channel with id: " + id + "was not found"));
     }
     public List<Channel> getByCategoy(String category){
@@ -65,16 +62,16 @@ public class ChannelService {
     public Channel update(Channel channel ){
         return channelrepository.save(channel);
     }
-
+    @Transactional
     public void delete(int id) {
-        if(!(containsKye(id))){
-            throw new NoEntityFound("not found");
+        if(!(containsKey(id))){
+            throw new NoEntityFound("not found channel you want to delete");
         }
         channelrepository.deleteById(id);
     }
 
     public Channel getchannelById(int id) {
-        if(!(containsKye(id))){
+        if(!(containsKey(id))){
             throw new NoEntityFound("not found");
         }
             return  channelrepository.findById(id).orElseThrow(() -> new NoEntityFound("channel with id: " + id + "was not found"));

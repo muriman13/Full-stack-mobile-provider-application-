@@ -25,36 +25,10 @@ public class Channel {
     @JsonIgnore
     @ManyToMany(mappedBy = "channels", fetch = FetchType.LAZY)
     private Set<Pack> packs = new HashSet<>();
-   // @JsonIgnore
-//    @ManyToMany(mappedBy = "channelsofproviders", fetch = FetchType.LAZY)
-//    private Set<com.example.demo.providers> providers;
-    @JsonIgnore
-//    @ManyToOne(optional = true)
-//    @JoinColumn(name = "contract_id",nullable = true)
-//    private contract channelcontract;
-
-
 
     @ManyToOne
     @JoinColumn(name = "providers_id",nullable = true)
     private Providers providers;
-
-//    public contract getChannelcontract() {
-//        return channelcontract;
-//    }
-//
-//    public void setChannelcontract(contract channelcontract) {
-//        this.channelcontract = channelcontract;
-//    }
-
-//    public Set<com.example.demo.providers> getProviders() {
-//        return providers;
-//    }
-
-//    public void setProviders(Set<com.example.demo.providers> providers) {
-//        this.providers = providers;
-//    }
-
 
     public Set<Contract> getContracts() {
         return contracts;
@@ -101,6 +75,8 @@ public class Channel {
         return type;
     }
 
+
+
     public void setType(String type) {
         this.type = type;
     }
@@ -131,6 +107,10 @@ public class Channel {
         this.type = type;
         this.price = price;
         this.pack_id = pack_id;
+    }
+
+    public Channel(Providers providers) {
+        this.providers = providers;
     }
 
     public Channel() {

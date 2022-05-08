@@ -2,8 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Channel;
 import com.example.demo.services.ChannelService;
-import com.example.demo.exceptions.ApiRequestExeptions;
-import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.entities.Pack;
 import com.example.demo.services.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +20,11 @@ public class PackController {
    private ChannelService channelService;
     @GetMapping("/sho")
     public ResponseEntity<List<Pack>> showAll(){
-        List<Pack> packages = packService.getAllpacks();
-        return new ResponseEntity<>(packages, HttpStatus.OK);
+        return new ResponseEntity<>(packService.getAllpacks(), HttpStatus.OK);
     }
     @GetMapping("/sho/{id}")
         public ResponseEntity<Pack> getpack(@PathVariable int id) {
-
-            Pack pack = packService.getOne(id);
-            return new ResponseEntity<Pack>(pack,HttpStatus.OK);
+            return new ResponseEntity<Pack>(packService.getOne(id),HttpStatus.OK);
         }
 
         @GetMapping ("/delet/{name}")
@@ -39,25 +34,20 @@ public class PackController {
         return new ResponseEntity<>(HttpStatus.OK);
         }
     @RequestMapping("/update/{id}")
-    @Transactional
     public ResponseEntity<Pack> updatePack( @PathVariable Integer id){
-        Pack pack = packService.updatePack("News",id);
-        return new ResponseEntity<>(pack,HttpStatus.OK);
+        return new ResponseEntity<>(packService.updatePack("News",id),HttpStatus.OK);
     }
     @PostMapping("/savePostPackage")
     public ResponseEntity<Pack> savePostPackage(@RequestBody Pack pack){
-     Pack savedPack = packService.savePostPackage(pack);
-     return new ResponseEntity<Pack>(savedPack, HttpStatus.OK);
+     return new ResponseEntity<Pack>(packService.savePostPackage(pack), HttpStatus.OK);
     }
     @PutMapping("/addto/{id}/{channel_id}")
     public ResponseEntity<Pack> add_channel_to_package (@PathVariable int id, @PathVariable int channel_id) throws Exception {
         Pack pack = packService.getOne(id);
-        Channel channel = channelService.getone(channel_id);
+        Channel channel = channelService.getOne(channel_id);
         pack.addchannel(channel);
-        Pack updatedPack = packService.savePostPackage(pack);
-        return new ResponseEntity<Pack>(updatedPack,HttpStatus.OK);
+        return new ResponseEntity<Pack>(packService.savePostPackage(pack),HttpStatus.OK);
     }
-    @Transactional
     @DeleteMapping("/delete/package/{id}")
     public ResponseEntity<?> delete (@PathVariable int id){
         packService.delete(id);
@@ -65,7 +55,6 @@ public class PackController {
     }
     @PutMapping("/update/package")
     public ResponseEntity<Pack> updatePackage(@RequestBody Pack Oldpack){
-        Pack pack = packService.update(Oldpack);
-        return new ResponseEntity<Pack>(pack,HttpStatus.OK);
+        return new ResponseEntity<Pack>(packService.update(Oldpack),HttpStatus.OK);
     }
 }

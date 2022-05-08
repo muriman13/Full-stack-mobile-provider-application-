@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Providers;
-import com.example.demo.repsitories.ProvidersRepo;
+import com.example.demo.repositories.ProvidersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +23,15 @@ public class ProvidersService {
           return   providersRepo.save(providers);
     }
 
-    public List<Providers> getall() {
+    public List<Providers> getAll() {
         List<Providers> test = new ArrayList<>();
         providersRepo.findAll().forEach(test::add);
         return test;
     }
-    public boolean containsKye(int id){
+    public boolean containsKey(int id){
         return providersRepo.existsById(id);
     }
-    public void updateprice(int id, double percent) {
+    public void updatePrice(int id, double percent) {
         providersRepo.updatePrice(id,percent);
     }
 }

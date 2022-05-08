@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.DTOs.ClientDTO;
-import com.example.demo.Mapper;
+import com.example.demo.DTOs.Mapper;
 import com.example.demo.entities.Clients;
 import com.example.demo.services.ClientsService;
 import com.example.demo.services.ContractService;
@@ -20,15 +20,13 @@ public class ClientController {
     @Autowired
     private ClientsService clientsService;
     @Autowired
-    private ContractService contractService;
+    private ContractService contractService; //do with bean configuration
     @Autowired
     private Mapper mapper;
 
     @GetMapping("getall")
     public ResponseEntity<List<ClientDTO>> getallClients(){
-        List<ClientDTO> clients = clientsService.getall().stream().map(mapper::toDto).collect(toList());
-        return  new ResponseEntity<>(clients, HttpStatus.OK);
-
+        return  new ResponseEntity<>(clientsService.getAll().stream().map(mapper::toDto).collect(toList()), HttpStatus.OK);
     }
     @PostMapping("save")
     public ResponseEntity<?> saveclient(@RequestBody Clients clients){
@@ -36,9 +34,8 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/payments/{client_id}")
-    public ResponseEntity<?> payments(@PathVariable int client_id){
-        double money = clientsService.AllMadePayments(client_id);
-        return new ResponseEntity<>(money,HttpStatus.OK);
+    public ResponseEntity<Double> payments(@PathVariable int client_id){
+        return new ResponseEntity<>(clientsService.allMadePayments(client_id),HttpStatus.OK);
     }
 
 }

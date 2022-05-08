@@ -3,24 +3,33 @@ package com.example.demo.DTOs;
 import com.example.demo.entities.Contract;
 
 public class ClientDTO {
-    private String first_name;
-    private String last_name;
+    private int id;
+    private String fname;
+    private String lname;
     private Contract contract;
 
-    public String getFirst_name() {
-        return first_name;
+    public int getId() {
+        return id;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getFname() {
+        return fname;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
     public Contract getContract() {
@@ -31,9 +40,10 @@ public class ClientDTO {
         this.contract = contract;
     }
 
-    public ClientDTO(String first_name, String last_name, Contract contract) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public ClientDTO(int id, String first_name, String last_name, Contract contract) {
+        this.id = id;
+        this.fname = first_name;
+        this.lname = last_name;
         this.contract = contract;
     }
 }

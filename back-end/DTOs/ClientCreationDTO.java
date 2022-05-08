@@ -3,46 +3,34 @@ package com.example.demo.DTOs;
 import com.example.demo.entities.Contract;
 
 public class ClientCreationDTO {
-    private String first_name;
-    private String last_name;
+    private int id;
+    private String fname;
+    private String lname;
     private String EGN;
     private Contract contract;
 
-    public String getFirst_name() {
-        return first_name;
+    public int getId() {
+        return id;
     }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public String getFname() {
+        return fname;
     }
-
-    public String getLast_name() {
-        return last_name;
+    public String getLname() {
+        return lname;
     }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
     public Contract getContract() {
         return contract;
     }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
-
     public String getEGN() {
         return EGN;
     }
 
-    public void setEGN(String EGN) {
-        this.EGN = EGN;
-    }
 
-    public ClientCreationDTO(String first_name, String last_name, String EGN, Contract contract) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+
+    public ClientCreationDTO(int id, String first_name, String last_name, String EGN, Contract contract) {
+        this.id = id;
+        this.fname = first_name;
+        this.lname = last_name;
         this.EGN = EGN;
         this.contract = contract;
     }

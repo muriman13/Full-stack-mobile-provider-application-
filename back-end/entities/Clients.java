@@ -10,9 +10,9 @@ public class Clients {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int id;
-    private String first_name;
-    private String last_name;
-    private String EGN;
+    private String fname;
+    private String lname;
+    private String egn;
 
     //channels_id //ne e nujno ne go pishi
 //    @OneToOne(cascade = CascadeType.ALL)
@@ -25,12 +25,12 @@ public class Clients {
     @OneToOne(mappedBy = "clients", optional = true)
     private Contract contract;
 
-    public String getEGN() {
-        return EGN;
+    public String getEgn() {
+        return egn;
     }
 
-    public void setEGN(String EGN) {
-        this.EGN = EGN;
+    public void setEgn(String egn) {
+        this.egn = egn;
     }
 
     public Contract getContract() {
@@ -49,34 +49,55 @@ public class Clients {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+
+
+    public String getFname() {
+        return fname;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLname() {
+        return lname;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
     public Clients(String first_name, String last_name) {
 
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.fname = first_name;
+        this.lname = last_name;
     }
 
     public Clients() {
     }
 
+    public Clients(int id, String first_name, String last_name, String egn) {
+        this.id = id;
+        this.fname = first_name;
+        this.lname = last_name;
+        this.egn = egn;
+    }
+
+    public Clients(int id, String first_name, String last_name) {
+        this.id = id;
+        this.fname = first_name;
+        this.lname = last_name;
+    }
+
     public Clients(String first_name, String last_name, Contract contract) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.fname = first_name;
+        this.lname = last_name;
         this.contract = contract;
+    }
+
+    public Clients(String fname, String lname, String egn) {
+        this.fname = fname;
+        this.lname = lname;
+        this.egn = egn;
     }
 }
