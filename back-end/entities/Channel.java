@@ -2,8 +2,14 @@ package com.example.demo.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.bytebuddy.implementation.bind.annotation.Empty;
 
+import javax.validation.Valid;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.*;
 
 
@@ -11,19 +17,23 @@ import java.util.*;
 public class Channel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-
     private int id;
-
+    @NotNull(message = "name should not be null")
     private String name;
+    @NotNull(message = "There should be a type")
     private String type;
+    @NotNull(message = "There should be a price")
     private Double price;
     private Integer pack_id;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "channelsInContract", fetch = FetchType.LAZY)
+
     private Set<Contract> contracts = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "channels", fetch = FetchType.LAZY)
+
     private Set<Pack> packs = new HashSet<>();
 
     @ManyToOne
@@ -62,7 +72,7 @@ public class Channel {
     public void setPrice(Double price) {
         this.price = price;
     }
-
+    @NotNull(message = "test")
     public String getName() {
         return name;
     }
@@ -132,5 +142,16 @@ public class Channel {
         contracts.add(contract);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Channel channel = (Channel) o;
+        return name.equals(channel.name) && providers.equals(channel.providers);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, providers);
+    }
 }

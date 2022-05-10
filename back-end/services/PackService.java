@@ -1,19 +1,27 @@
 package com.example.demo.services;
 
+import com.example.demo.entities.Channel;
 import com.example.demo.entities.Pack;
 import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.repositories.PackRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PackService {
-    @Autowired
-    private PackRepository packrepository;
+
+    private final PackRepository packrepository;
+    private final ChannelService channelService;
+    public PackService(PackRepository packrepository, ChannelService channelService) {
+        this.packrepository = packrepository;
+        this.channelService = channelService;
+    }
+
 
     public List<Pack> getInContract(int id) {
      return packrepository.getInContract(id).orElseThrow(()-> new NoEntityFound("Contract has no packages"));
@@ -30,7 +38,7 @@ public class PackService {
         }
         return packages;
     }
-    public List<Pack> getPackByName(String id){
+    public Pack getPackByName(String id){
      return packrepository.findByname(id).orElseThrow(() -> new NoEntityFound("No package was found with name:" + id));
     }
 
@@ -54,8 +62,17 @@ public class PackService {
     public Pack update(Pack pack ){
         return packrepository.save(pack);
     }
+    public Pack addChannelToPackage(int id, @PathVariable int channel_id){
+        Pack pack = getOne(id);
+        pack.addchannel(channelService.getOne(channel_id));
+        return pack;
+    }
 
-    public Pack getPackById(int id) {
-        return null;
+
+    public Pack categoryPackage(Pack pack,String category){
+        pack.setId(packrepository.findByname(category).orElseThrow(()-> new NoEntityFound("no found")).getId());
+        pack.setName(category);
+        pack.setChannels(channelService.getAllChannels().stream().filter(channel -> channel.getType().equals(category)).collect(Collectors.toSet()));
+       return packrepository.save(pack);
     }
 }

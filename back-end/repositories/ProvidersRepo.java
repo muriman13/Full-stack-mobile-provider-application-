@@ -17,5 +17,12 @@ public interface ProvidersRepo extends CrudRepository<Providers,Integer> {
     @Query(value="UPDATE channel\n" +
             "SET price = price + (price*(:percent/100))\n" +
             "WHERE providers_id = :id",nativeQuery = true)
+
     void updatePrice(@Param("id") int id,@Param("percent") double percent);
+    @Transactional
+    @Modifying
+    @Query(value="UPDATE packages\n" +
+            "SET price = price + (price*(:percent/100))\n" +
+            "WHERE providers_id = :id",nativeQuery = true)
+    void updatePricePackages(@Param("id") int id,@Param("percent") double percent);
 }

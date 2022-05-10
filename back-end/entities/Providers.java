@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,18 +13,10 @@ public class Providers {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+    @NotNull(message = "name should not be null")
     private String name;
+    @NotNull(message = "price should not be null")
     private double price;
-    //channels_id //ne e nujno ne go pishi
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinTable(name="providers_has_channels",
-//    joinColumns ={
-//        @JoinColumn(name = "providers_id", referencedColumnName = "id")
-//    },
-//    inverseJoinColumns = {
-//            @JoinColumn(name = "channels_id",referencedColumnName = "id")
-//    }
-//    )
     @JsonIgnore
     @OneToMany(mappedBy = "providers" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Channel> channelsInProvider = new HashSet<>();
@@ -33,39 +26,12 @@ public class Providers {
     private Set<Pack> packsForprovider = new HashSet<>();
 
 
-
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinTable(name="providers_has_packages",
-//            joinColumns ={
-//                    @JoinColumn(name = "providers_id", referencedColumnName = "id")
-//            },
-//            inverseJoinColumns = {
-//                    @JoinColumn(name = "packages_id",referencedColumnName = "id")
-//            }
-//    )
-
-
-
-
-
     public Set<Channel> getChannelsInProvider() {
         return channelsInProvider;
     }
     public void setChannelsInProvider(Set<Channel> channelsInProvider) {
         this.channelsInProvider = channelsInProvider;
     }
-
-
-//    private Set<pack> packagesOfProviders =new HashSet <>();
-//
-//    public Set<pack> getPackagesOfProviders() {
-//        return packagesOfProviders;
-//    }
-//
-//    public void setPackagesOfProviders(Set<pack> packagesOfProviders) {
-//        this.packagesOfProviders = packagesOfProviders;
-//    }
 
 
 

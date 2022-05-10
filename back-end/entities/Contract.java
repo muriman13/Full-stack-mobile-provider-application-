@@ -13,12 +13,16 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int id;
+
     @JsonFormat(pattern="yyyy-MM-dd")
     Date start_date;
+
     @JsonFormat(pattern="yyyy-MM-dd")
     Date end_date;
+
     @JsonFormat(pattern="yyyy-MM-dd")
     Date last_date;
+
     double total_payments;
     double monthly_price;
     //int package_id;
@@ -132,13 +136,6 @@ public class Contract {
         this.monthly_price = monthly_price;
     }
 
-//    public int getPackage_id() {
-//        return package_id;
-//    }
-//
-//    public void setPackage_id(int package_id) {
-//        this.package_id = package_id;
-//    }
 
     public double getPrice() {
         return price;
@@ -164,7 +161,6 @@ public class Contract {
         this.start_date = start_date;
         this.end_date = end_date;
         this.monthly_price = monthly_price;
-     //   this.package_id = package_id;
         this.price = price;
     }
 

@@ -16,7 +16,7 @@ public class UserController {
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
         return
-                user.getUserName().equals("user") && user.getPassword().equals("password");
+                (user.getUserName().equals("user") && user.getPassword().equals("password") || (user.getUserName().equals("mariano") && user.getPassword().equals("1234") ));
     }
 
     @RequestMapping("/user")

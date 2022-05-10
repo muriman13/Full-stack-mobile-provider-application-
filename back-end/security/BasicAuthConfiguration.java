@@ -20,7 +20,11 @@ public class BasicAuthConfiguration
                 .inMemoryAuthentication()
                 .withUser("user")
                 .password("{noop}password")
-                .roles("USER");
+                .roles("USER")
+                .and()
+                .withUser("mariano")
+                .password("{noop}1234")
+                .roles("ADMIN","USER");
     }
 
     @Override
@@ -29,6 +33,7 @@ public class BasicAuthConfiguration
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/login").permitAll()
+               // .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

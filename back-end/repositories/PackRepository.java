@@ -15,8 +15,6 @@ public interface PackRepository extends CrudRepository<Pack, Integer> {
 
 
     void deleteByname(String name);
-
-    Optional <List<Pack>> findByname(String id);
     @Modifying
     @Query("update Pack u set u.name = :name where u.id = :id")
     Pack updatePack(@Param(value  = "name")String name,@Param(value = "id")Integer id);
@@ -26,4 +24,6 @@ public interface PackRepository extends CrudRepository<Pack, Integer> {
                     "join contract on packages.contract_id = :id\n" +
                     "group by packages.id", nativeQuery = true)
     Optional<List<Pack>> getInContract(@Param("id") Integer id);
+
+    Optional<Pack> findByname(String category);
 }

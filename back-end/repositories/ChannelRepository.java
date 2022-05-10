@@ -24,7 +24,7 @@ public interface ChannelRepository extends CrudRepository<Channel, Integer> {
 
 
     @Query(value = "select * from channel where type = :category",nativeQuery = true)
-    Optional<List<Channel>> withCat(@Param("category") String category);
+    Optional<List<Channel>> withCategory(@Param("category") String category);
 
 
     @Query(value =

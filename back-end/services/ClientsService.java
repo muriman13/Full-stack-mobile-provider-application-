@@ -17,10 +17,15 @@ import java.util.List;
 @Service
 public class ClientsService {
 
-    @Autowired
-    private ClientsRepo clientsRepo;
-    @Autowired
-    private ContractService contractService;
+
+    private  final ClientsRepo clientsRepo;
+    private final ContractService contractService;
+
+    public ClientsService(ClientsRepo clientsRepo, ContractService contractService) {
+        this.clientsRepo = clientsRepo;
+        this.contractService = contractService;
+    }
+
 
     public List<Clients> getAll() {
         List<Clients> test = new ArrayList<>();

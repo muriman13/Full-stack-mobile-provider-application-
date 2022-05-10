@@ -3,6 +3,10 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "clients")
@@ -10,17 +14,14 @@ public class Clients {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int id;
+    @NotNull(message = "name should not be null")
+    @NotEmpty(message = "name should not be null")
     private String fname;
+    @NotNull(message = "name should not be null")
+    @NotEmpty(message = "name should not be null")
     private String lname;
     private String egn;
 
-    //channels_id //ne e nujno ne go pishi
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinTable(name = "Clients_contract",
-//            joinColumns =
-//                    { @JoinColumn(name = "clients_id", referencedColumnName = "id") },
-//            inverseJoinColumns =
-//                    { @JoinColumn(name = "contract_id", referencedColumnName = "id") })
     @JsonIgnore
     @OneToOne(mappedBy = "clients", optional = true)
     private Contract contract;
