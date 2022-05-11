@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -63,12 +62,12 @@ public class ContractController {
 
     @PutMapping("addChannel/{contractId}/{channelId}")
     public ResponseEntity<Contract> addChannel(@PathVariable int contractId, @PathVariable int channelId){
-        return new ResponseEntity<Contract>(contractService.addChannelToContract(contractId,channelId), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.addChannelToContract(contractId,channelId), HttpStatus.OK);
 
     }
     @PutMapping("addPackage/{contractId}/{packageId}")
     public ResponseEntity<Contract> addPackage(@PathVariable int contractId, @PathVariable int packageId){
-        return new ResponseEntity<Contract>(contractService.addPackageToContract(contractId,packageId), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.addPackageToContract(contractId,packageId), HttpStatus.OK);
 
     }
 

@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Channel;
+
 import com.example.demo.entities.Pack;
 import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.repositories.PackRepository;
@@ -47,13 +47,13 @@ public class PackService {
     }
     @Transactional
     public Pack updatePack(String name, Integer id){
-       return packrepository.updatePack(name,20);
+       return packrepository.updatePack(name,id);
     }
     public Pack savePostPackage(Pack pack){
        return packrepository.save(pack);
     }
     public Pack getOne (int id) {
-        return packrepository.findById(id).get();
+        return packrepository.findById(id).orElseThrow(()-> new NoEntityFound("Not pack found"));
     }
     @Transactional
     public void delete(int id) {

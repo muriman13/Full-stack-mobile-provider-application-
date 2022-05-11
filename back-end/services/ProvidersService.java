@@ -33,9 +33,7 @@ public class ProvidersService {
         providersRepo.findAll().forEach(test::add);
         return test;
     }
-    public boolean containsKey(int id){
-        return providersRepo.existsById(id);
-    }
+
     public void updatePrice(int id, double percent) {
         providersRepo.updatePrice(id,percent);
         providersRepo.updatePricePackages(id,percent);

@@ -6,7 +6,7 @@ public class ClientCreationDTO {
     private int id;
     private String fname;
     private String lname;
-    private String EGN;
+    private String egn;
     private Contract contract;
 
     public int getId() {
@@ -21,8 +21,8 @@ public class ClientCreationDTO {
     public Contract getContract() {
         return contract;
     }
-    public String getEGN() {
-        return EGN;
+    public String getEgn() {
+        return egn;
     }
 
 
@@ -31,7 +31,7 @@ public class ClientCreationDTO {
         this.id = id;
         this.fname = first_name;
         this.lname = last_name;
-        this.EGN = EGN;
+        this.egn = EGN;
         this.contract = contract;
     }
 }

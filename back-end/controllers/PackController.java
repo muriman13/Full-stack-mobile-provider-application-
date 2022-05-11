@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Channel;
 import com.example.demo.services.ChannelService;
 import com.example.demo.entities.Pack;
 import com.example.demo.services.PackService;
@@ -16,11 +15,9 @@ import java.util.List;
 public class PackController {
 
   private final PackService packService;
-   private final ChannelService channelService;
 
-    public PackController(PackService packService, ChannelService channelService) {
+    public PackController(PackService packService) {
         this.packService = packService;
-        this.channelService = channelService;
     }
 
 
@@ -30,7 +27,7 @@ public class PackController {
     }
     @GetMapping("/sho/{id}")
         public ResponseEntity<Pack> getPack(@PathVariable int id) {
-            return new ResponseEntity<Pack>(packService.getOne(id),HttpStatus.OK);
+            return new ResponseEntity<>(packService.getOne(id),HttpStatus.OK);
         }
 
         @GetMapping ("/delet/{name}")
@@ -57,17 +54,17 @@ public class PackController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping("/update/package")
-    public ResponseEntity<Pack> updatePackage(@Valid @RequestBody Pack Oldpack){
-        return new ResponseEntity<Pack>(packService.update(Oldpack),HttpStatus.OK);
+    public ResponseEntity<Pack> updatePackage(@Valid @RequestBody Pack oldPack){
+        return new ResponseEntity<>(packService.update(oldPack),HttpStatus.OK);
     }
     @PostMapping("/add/{category}")
     public ResponseEntity<Pack> createPackageByCategory(@Valid @RequestBody Pack pack, @PathVariable String category){
-        return new ResponseEntity<Pack>(packService.categoryPackage(pack,category),HttpStatus.CREATED);
+        return new ResponseEntity<>(packService.categoryPackage(pack,category),HttpStatus.CREATED);
     }
 
     @PutMapping("/updatePack/{category}")
     public ResponseEntity<Pack> updatePackageByCategory(@Valid @RequestBody Pack pack,@PathVariable String category){
-        return new ResponseEntity<Pack>(packService.categoryPackage(pack,category),HttpStatus.CREATED);
+        return new ResponseEntity<>(packService.categoryPackage(pack,category),HttpStatus.CREATED);
     }
 
 }

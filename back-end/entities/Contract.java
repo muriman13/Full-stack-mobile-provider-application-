@@ -145,18 +145,17 @@ public class Contract {
         this.price = price;
     }
 
-    public Contract(int id, Date start_date, Date end_date, double monthly_price, int package_id, double price, Set<Channel> channelsInContract, Set<Pack> packagesInContract) {
+    public Contract(int id, Date start_date, Date end_date, double monthly_price, double price, Set<Channel> channelsInContract, Set<Pack> packagesInContract) {
         this.id = id;
         this.start_date = start_date;
         this.end_date = end_date;
         this.monthly_price = monthly_price;
-      //  this.package_id = package_id;
         this.price = price;
         this.channelsInContract = channelsInContract;
           this.packagesInContract = packagesInContract;
     }
 
-    public Contract(int id, Date start_date, Date end_date, double monthly_price, int package_id, double price) {
+    public Contract(int id, Date start_date, Date end_date, double monthly_price, double price) {
         this.id = id;
         this.start_date = start_date;
         this.end_date = end_date;
@@ -174,17 +173,7 @@ public class Contract {
         packagesInContract.add(packages);
     }
 
-    public Contract(int id, Date start_date, Date end_date, double monthly_price, double price, String name, Clients clients, Set<Channel> channelsInContract, Set<Pack> packagesInContract) {
-        this.id = id;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.monthly_price = monthly_price;
-        this.price = price;
-        this.name = name;
-        this.clients = clients;
 
-
-    }
 
     public Contract(int id, Date start_date, Date end_date, double monthly_price, double price, String name, Clients clients) {
         this.id = id;

@@ -2,14 +2,9 @@ package com.example.demo.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.bytebuddy.implementation.bind.annotation.Empty;
 
-import javax.validation.Valid;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.*;
 
 

@@ -67,7 +67,7 @@ public class Providers {
 
 
 
-    public Providers(String name, double price, Providers providers) {
+    public Providers(String name, double price) {
         this.name = name;
         this.price = price;
 

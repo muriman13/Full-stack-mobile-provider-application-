@@ -3,7 +3,6 @@ package com.example.demo.services;
 import com.example.demo.entities.Clients;
 import com.example.demo.entities.Contract;
 import com.example.demo.repositories.ClientsRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

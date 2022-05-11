@@ -4,7 +4,6 @@ import com.example.demo.entities.Channel;
 import com.example.demo.services.ChannelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @RestController
 public class ChannelController {
-    private ChannelService channelService;
+    private final ChannelService channelService;
     public ChannelController(ChannelService channelService) {
         this.channelService = channelService;
     }
@@ -31,13 +30,13 @@ public class ChannelController {
 
         @GetMapping ("/delete/{name}")
         @Transactional
-    public ResponseEntity<Void> deleteid(@PathVariable String name){
+    public ResponseEntity<Void> deleteId(@PathVariable String name){
         channelService.deleteByname(name);
         return new ResponseEntity<>(HttpStatus.OK);
         }
         @GetMapping("deleteAllNull")
     @Transactional
-    public ResponseEntity<Void> deleteall(){
+    public ResponseEntity<Void> deleteAll(){
         channelService.deleteAll();
         return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -50,7 +49,7 @@ public class ChannelController {
 
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<Channel>> channelWithCattegoru(@PathVariable String category){
+    public ResponseEntity<List<Channel>> channelWithCategory(@PathVariable String category){
         return new ResponseEntity<>(channelService.getByCategoy(category), HttpStatus.OK);
     }
 
@@ -60,8 +59,8 @@ public class ChannelController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Channel> updateChnannel(@Valid @RequestBody Channel Oldchannel){
-        return new ResponseEntity<>(channelService.update(Oldchannel),HttpStatus.OK);
+    public ResponseEntity<Channel> updateChannel(@Valid @RequestBody Channel oldChannel){
+        return new ResponseEntity<>(channelService.update(oldChannel),HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete (@PathVariable int id){

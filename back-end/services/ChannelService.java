@@ -4,12 +4,8 @@ import com.example.demo.exceptions.ApiRequestExeptions;
 import com.example.demo.exceptions.NoEntityFound;
 import com.example.demo.repositories.ChannelRepository;
 import com.example.demo.entities.Channel;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +53,6 @@ public class ChannelService {
     public Channel savePost (Channel channel)  {
 
             return channelrepository.save(channel);
-
-
     }
 
     public Channel getOne(int id)  {

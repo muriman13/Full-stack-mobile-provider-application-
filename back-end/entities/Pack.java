@@ -29,19 +29,11 @@ public class Pack {
                             )})
     private Set<Channel> channels = new HashSet<>();
 
-//    @ManyToMany(mappedBy = "packagesOfProviders", fetch = FetchType.LAZY)
-//    private Set<com.example.demo.providers> providers = new HashSet<>();
     @JsonIgnore
     @ManyToMany(mappedBy = "packagesInContract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Contract> contracts = new HashSet<>();
 
-//    public Set<com.example.demo.providers> getProviders() {
-//        return providers;
-//    }
-//
-//    public void setProviders(Set<com.example.demo.providers> providers) {
-//        this.providers = providers;
-//    }
+
 @ManyToOne
 @JoinColumn(name = "providers_id",nullable = true)
 private Providers providersInpackage;
