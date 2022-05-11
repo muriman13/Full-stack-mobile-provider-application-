@@ -17,7 +17,6 @@ public class Pack {
     private int id;
     @NotNull(message = "name should not be null")
     private String name;
-    @NotNull(message = "There should be a price")
     private Double price;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "channels_has_packages",

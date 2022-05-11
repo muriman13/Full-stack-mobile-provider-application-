@@ -63,7 +63,7 @@ public class PackController {
     }
 
     @PutMapping("/updatePack/{category}")
-    public ResponseEntity<Pack> updatePackageByCategory(@Valid @RequestBody Pack pack,@PathVariable String category){
+    public ResponseEntity<Pack> updatePackageByCategory( @RequestBody Pack pack,@PathVariable String category){
         return new ResponseEntity<>(packService.categoryPackage(pack,category),HttpStatus.CREATED);
     }
 

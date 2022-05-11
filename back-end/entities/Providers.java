@@ -15,7 +15,6 @@ public class Providers {
     int id;
     @NotNull(message = "name should not be null")
     private String name;
-    @NotNull(message = "price should not be null")
     private double price;
     @JsonIgnore
     @OneToMany(mappedBy = "providers" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
